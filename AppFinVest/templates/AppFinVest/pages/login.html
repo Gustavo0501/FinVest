@@ -1,11 +1,39 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Finvest | Login</title>
+    <title>Login | FinVest</title>
+    <link rel="stylesheet" href="{% static 'AppFinvest/css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'global/css/global-style.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poetsen+One&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
+
 </head>
 <body>
-    <h1>TESTE</h1>
+    <header>
+        <h1 class=logo>FinVest</h1>
+    </header>
+
+    <div class=caixa-login>
+        <div class=texto-login>
+            <h2>Login</h2>
+        </div>
+        <div>
+            <form class=login-form action="#" method="post">
+                <input type="text" name="email" placeholder="Email" required>
+                <input type="password" name="password" placeholder="Senha" required>
+                <input type="submit" value="Entrar">
+            </form>
+        </div>
+        <div>
+            <a class=link-cadastro href="#">Não tem uma conta? Cadastre-se</a>
+        </div>
+    </div>
 </body>
 </html>
+
+
