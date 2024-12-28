@@ -1,0 +1,84 @@
+{% extends 'global/base.html' %}
+
+{% block title %}Tabela de Ações | {% endblock title %}
+
+{% block content %}
+
+<div class=corpo-pagina>
+    <div class="sidebar">
+        <ul class="menu">
+            <li>
+                <a href="../visao-geral" class="menu-item">
+                    <span class="icon">📂</span>
+                    <span class="text">Visão Geral</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-item">
+                    <span class="icon">📊</span>
+                    <span class="text">Gráficos</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-item">
+                    <span class="icon">🎯</span>
+                    <span class="text">Metas</span>
+                </a>
+            </li>
+            <li>
+                <a href="acoes" class="menu-item">
+                    <span class="icon">📈</span>
+                    <span class="text">Ações</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-item ultimo-item">
+                    <span class="icon">💲</span>
+                    <span class="text">Criptomoedas</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="conteudo-principal">
+        <div class="container">
+            <h1>Tabela de Cotações</h1>
+        
+            {% if error_message %}
+            <p class="error">{{ error_message }}</p>
+            {% endif %}
+        
+            <table>
+                <thead>
+                    <tr>
+                        <th>Ativo</th>
+                        <th>Data</th>
+                        <th>Abertura (R$)</th>
+                        <th>Máximo (R$)</th>
+                        <th>Mínimo (R$)</th>
+                        <th>Fechamento (R$)</th>
+                        <th>Volume</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for stock in stock_data %}
+                    <tr>
+                        <td>{{ stock.symbol }}</td>
+                        {% if stock.error %}
+                        <td colspan="6" class="error">{{ stock.error }}</td>
+                        {% else %}
+                        <td>{{ stock.date }}</td>
+                        <td>{{ stock.open_price }}</td>
+                        <td>{{ stock.high_price }}</td>
+                        <td>{{ stock.low_price }}</td>
+                        <td>{{ stock.close_price }}</td>
+                        <td>{{ stock.volume }}</td>
+                        {% endif %}
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    <div class="botao-adicionar">+</div>
+</div>
+
+{% endblock content %}
