@@ -48,3 +48,27 @@ def stock_table(request):
             error_message = "Erro ao conectar-se à API."
 
     return render(request, 'AppFinVest/pages/acoes.html', {'stock_data': stock_data, 'error_message': error_message})
+
+
+def criptomoedas(request):
+    # URL da API CoinGecko para obter dados de criptomoedas
+    url = "https://api.coingecko.com/api/v3/coins/markets"
+    params = {
+        'vs_currency': 'usd',  # Moeda de referência
+        'order': 'market_cap_desc',  # Ordenar por capitalização de mercado
+        'per_page': 10,  # Número de criptomoedas
+        'page': 1,
+        'sparkline': False  # Não incluir gráfico sparkline
+    }
+
+    try:
+        # Chamada à API CoinGecko
+        response = requests.get(url, params=params)
+        response.raise_for_status()
+        criptomoedas = response.json()
+    except requests.exceptions.RequestException as e:
+        criptomoedas = []
+        error_message = f"Erro ao buscar dados: {str(e)}"
+        return render(request, 'AppFinVest/criptomoedas.html', {'criptomoedas': criptomoedas, 'error_message': error_message})
+
+    return render(request, 'AppFinVest/pages/criptomoedas.html', {'criptomoedas': criptomoedas})

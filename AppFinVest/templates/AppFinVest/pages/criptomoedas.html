@@ -1,0 +1,75 @@
+{% extends 'global/base.html' %}
+{% load humanize %}
+
+{% block title %}Tabela de Ações | {% endblock title %}
+
+{% block content %}
+
+<div class=corpo-pagina>
+    <div class="sidebar">
+        <ul class="menu">
+            <li>
+                <a href="../visao-geral" class="menu-item">
+                    <span class="icon">📂</span>
+                    <span class="text">Visão Geral</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-item">
+                    <span class="icon">📊</span>
+                    <span class="text">Gráficos</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-item">
+                    <span class="icon">🎯</span>
+                    <span class="text">Metas</span>
+                </a>
+            </li>
+            <li>
+                <a href="../acoes" class="menu-item">
+                    <span class="icon">📈</span>
+                    <span class="text">Ações</span>
+                </a>
+            </li>
+            <li>
+                <a href="" class="menu-item ultimo-item">
+                    <span class="icon">💲</span>
+                    <span class="text">Criptomoedas</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="conteudo-principal">
+        <div class="container">
+            <h1>Top 10 Criptomoedas</h1>
+    
+    {% if error_message %}
+        <p class="error">{{ error_message }}</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Nome</th>
+                    <th>Preço (USD)</th>
+                    <th>Capitalização de Mercado (USD)</th>
+                    <th>Volume 24h (USD)</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for moeda in criptomoedas %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ moeda.name }} ({{ moeda.symbol|upper }})</td>
+                    <td>${{ moeda.current_price|floatformat:2 }}</td>
+                    <td>${{ moeda.market_cap|intcomma }}</td>
+                    <td>${{ moeda.total_volume|intcomma }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+</div>
+
+{% endblock content %}
