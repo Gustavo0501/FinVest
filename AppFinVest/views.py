@@ -1,6 +1,6 @@
 import requests
 from django.shortcuts import render
-form .models import InfoFinanceira
+from AppFinVest.models import InfoFinanceira
 
 def login(request):
     return render(request, 'AppFinvest/pages/login.html')
