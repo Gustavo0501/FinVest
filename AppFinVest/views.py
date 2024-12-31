@@ -1,6 +1,8 @@
 import requests
 from django.shortcuts import render
 from AppFinVest.models import InfoFinanceira
+from AppFinVest.models import Usuario
+import json
 
 def login(request):
     return render(request, 'AppFinvest/pages/login.html')
@@ -82,17 +84,17 @@ def graficos(request):
     # Filtrando as informações financeiras do usuário logado
     infos_financeiras = InfoFinanceira.objects.filter(usuario=usuario_logado)
 
-    # Gerando dados para os gráficos
-    meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]  # Exemplo de meses
-    patrimonio = [info.patrimonio for info in infos_financeiras]
-    renda = [info.renda for info in infos_financeiras]
-    dividas = [info.divida for info in infos_financeiras]
+    # Gerando os dados
+    meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
+    patrimonio = [float(info.patrimonio) for info in infos_financeiras]
+    renda = [float(info.renda) for info in infos_financeiras]
+    dividas = [float(info.divida) for info in infos_financeiras]
 
     context = {
         "usuario": usuario_logado,
-        "meses": meses,
-        "patrimonio": patrimonio,
-        "renda": renda,
-        "dividas": dividas,
+        "meses": json.dumps(meses),  # Serializando para JSON
+        "patrimonio": json.dumps(patrimonio),
+        "renda": json.dumps(renda),
+        "dividas": json.dumps(dividas),
     }
     return render(request, 'AppFinVest/pages/graficos.html', context)
