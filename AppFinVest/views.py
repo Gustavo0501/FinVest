@@ -1,5 +1,6 @@
 import requests
 from django.shortcuts import render
+form .models import InfoFinanceira
 
 def login(request):
     return render(request, 'AppFinvest/pages/login.html')
@@ -72,3 +73,26 @@ def criptomoedas(request):
         return render(request, 'AppFinVest/criptomoedas.html', {'criptomoedas': criptomoedas, 'error_message': error_message})
 
     return render(request, 'AppFinVest/pages/criptomoedas.html', {'criptomoedas': criptomoedas})
+
+
+def graficos(request):
+    # Simulando o usuário logado (substitua com `request.user` se o sistema de autenticação estiver configurado)
+    usuario_logado = Usuario.objects.first()  # Pega o primeiro usuário como exemplo
+
+    # Filtrando as informações financeiras do usuário logado
+    infos_financeiras = InfoFinanceira.objects.filter(usuario=usuario_logado)
+
+    # Gerando dados para os gráficos
+    meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]  # Exemplo de meses
+    patrimonio = [info.patrimonio for info in infos_financeiras]
+    renda = [info.renda for info in infos_financeiras]
+    dividas = [info.divida for info in infos_financeiras]
+
+    context = {
+        "usuario": usuario_logado,
+        "meses": meses,
+        "patrimonio": patrimonio,
+        "renda": renda,
+        "dividas": dividas,
+    }
+    return render(request, 'AppFinVest/pages/graficos.html', context)

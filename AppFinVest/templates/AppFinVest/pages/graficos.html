@@ -1,0 +1,80 @@
+{% extends 'global/base.html' %}
+
+{% block title %}Gráficos Financeiros{% endblock %}
+
+{% block content %}
+
+<div class=corpo-pagina>
+    <div class="sidebar">
+        <ul class="menu">
+            <li>
+                <a href="../visao-geral" class="menu-item">
+                    <span class="icon">📂</span>
+                    <span class="text">Visão Geral</span>
+                </a>
+            </li>
+            <li>
+                <a href="" class="menu-item">
+                    <span class="icon">📊</span>
+                    <span class="text">Gráficos</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" class="menu-item">
+                    <span class="icon">🎯</span>
+                    <span class="text">Metas</span>
+                </a>
+            </li>
+            <li>
+                <a href="../acoes" class="menu-item">
+                    <span class="icon">📈</span>
+                    <span class="text">Ações</span>
+                </a>
+            </li>
+            <li>
+                <a href="../criptomoedas" class="menu-item ultimo-item">
+                    <span class="icon">💲</span>
+                    <span class="text">Criptomoedas</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="conteudo-principal">
+        <h1>Seu Resumo Financeiro</h1>
+
+        <div class="info-section">
+            <p>Bem-vindo ao seu painel financeiro! Aqui você pode acompanhar suas informações de renda, dívidas e patrimônio, além de visualizar sua evolução ao longo do tempo.</p>
+            <div class="info-boxes">
+                <div class="info-box">
+                    <h2>Renda Mensal</h2>
+                    <p>R$ {{ renda }}</p>
+                </div>
+                <div class="info-box">
+                    <h2>Total de Dívidas</h2>
+                    <p>R$ {{ dividas }}</p>
+                </div>
+                <div class="info-box">
+                    <h2>Patrimônio Atual</h2>
+                    <p>R$ {{ patrimonio }}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="graficos-container">
+            <!-- Gráfico 1: Patrimônio ao longo do tempo -->
+            <canvas id="grafico-patrimonio" 
+                    data-meses="{{ meses|safe }}" 
+                    data-patrimonio="{{ patrimonio|safe }}">
+            </canvas>
+
+            <!-- Gráfico 2: Comparativo entre renda e dívidas -->
+            <canvas id="grafico-renda-dividas" 
+                    data-meses="{{ meses|safe }}" 
+                    data-renda="{{ renda|safe }}" 
+                    data-dividas="{{ dividas|safe }}">
+            </canvas>
+        </div>
+    </div>
+
+
+{% endblock content %}

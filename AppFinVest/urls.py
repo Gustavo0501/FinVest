@@ -7,4 +7,5 @@ urlpatterns = [
     path('visao-geral/', views.visao_geral),
     path('acoes/', views.stock_table),
     path('criptomoedas/', views.criptomoedas),
+    path('graficos/', views.graficos),
 ]
