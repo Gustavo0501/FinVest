@@ -82,10 +82,10 @@ def graficos(request):
     usuario_logado = Usuario.objects.first()  # Pega o primeiro usuário como exemplo
 
     # Filtrando as informações financeiras do usuário logado
-    infos_financeiras = InfoFinanceira.objects.filter(usuario=usuario_logado)
+    infos_financeiras = InfoFinanceira.objects.filter(usuario=usuario_logado).order_by('mes_referente')
 
     # Gerando os dados
-    meses = ["Jan", "Fev", "Mar", "Abr", "Mai", "Jun", "Jul", "Ago", "Set", "Out", "Nov", "Dez"]
+    meses = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
     patrimonio = [float(info.patrimonio) for info in infos_financeiras]
     renda = [float(info.renda) for info in infos_financeiras]
     dividas = [float(info.divida) for info in infos_financeiras]
@@ -96,5 +96,8 @@ def graficos(request):
         "patrimonio": json.dumps(patrimonio),
         "renda": json.dumps(renda),
         "dividas": json.dumps(dividas),
+        "renda_atual": json.dumps(renda[-1]),
+        "divida_atual": json.dumps(dividas[-1]),
+        "patrimonio_atual": json.dumps(patrimonio[-1]),
     }
     return render(request, 'AppFinVest/pages/graficos.html', context)
