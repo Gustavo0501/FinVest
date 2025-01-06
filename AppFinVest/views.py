@@ -72,7 +72,7 @@ def criptomoedas(request):
     except requests.exceptions.RequestException as e:
         criptomoedas = []
         error_message = f"Erro ao buscar dados: {str(e)}"
-        return render(request, 'AppFinVest/criptomoedas.html', {'criptomoedas': criptomoedas, 'error_message': error_message})
+        return render(request, 'AppFinVest/pages/criptomoedas.html', {'criptomoedas': criptomoedas, 'error_message': error_message})
 
     return render(request, 'AppFinVest/pages/criptomoedas.html', {'criptomoedas': criptomoedas})
 
