@@ -42,41 +42,39 @@
     <div class="conteudo-principal">
         <div class="container">
             <h1>Tabela de Cotações</h1>
-        
-            {% if error_message %}
+        {% if error_message %}
             <p class="error">{{ error_message }}</p>
-            {% endif %}
-        
-            <table>
-                <thead>
-                    <tr>
-                        <th>Ativo</th>
-                        <th>Data</th>
-                        <th>Abertura (R$)</th>
-                        <th>Máximo (R$)</th>
-                        <th>Mínimo (R$)</th>
-                        <th>Fechamento (R$)</th>
-                        <th>Volume</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for stock in stock_data %}
-                    <tr>
-                        <td>{{ stock.symbol }}</td>
-                        {% if stock.error %}
-                        <td colspan="6" class="error">{{ stock.error }}</td>
-                        {% else %}
-                        <td>{{ stock.date }}</td>
-                        <td>{{ stock.open_price }}</td>
-                        <td>{{ stock.high_price }}</td>
-                        <td>{{ stock.low_price }}</td>
-                        <td>{{ stock.close_price }}</td>
-                        <td>{{ stock.volume }}</td>
-                        {% endif %}
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
+        {% endif %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Ativo</th>
+                    <th>Data</th>
+                    <th>Abertura (R$)</th>
+                    <th>Máximo (R$)</th>
+                    <th>Mínimo (R$)</th>
+                    <th>Fechamento (R$)</th>
+                    <th>Volume</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for stock in stock_data %}
+                <tr>
+                    <td>{{ stock.symbol }}</td>
+                    {% if stock.error %}
+                    <td colspan="6" class="error">{{ stock.error }}</td>
+                    {% else %}
+                    <td>{{ stock.date }}</td>
+                    <td>{{ stock.open_price }}</td>
+                    <td>{{ stock.high_price }}</td>
+                    <td>{{ stock.low_price }}</td>
+                    <td>{{ stock.close_price }}</td>
+                    <td>{{ stock.volume }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
         </div>
 </div>
 

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'AppFinVest',
     'django.contrib.humanize',
+    'django_apscheduler', 
 ]
 
 MIDDLEWARE = [
