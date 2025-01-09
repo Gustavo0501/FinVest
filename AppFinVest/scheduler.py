@@ -17,7 +17,7 @@ def start_scheduler():
             # Agendando a tarefa para rodar a cada 10 minutos
             scheduler.add_job(
                 atualizar_precos,
-                trigger=IntervalTrigger(minutes=10),
+                trigger=IntervalTrigger(minutes=20),
                 id="atualizar_precos",
                 replace_existing=True,
             )

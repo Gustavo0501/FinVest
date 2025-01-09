@@ -55,7 +55,7 @@ def graficos(request):
     
     # Obtém o mês e o ano atuais
     now = timezone.now()
-    current_month = calendar.month_name[now.month+1].capitalize()
+    current_month = calendar.month_name[now.month].capitalize()
 
     # Filtra os registros financeiros do usuário logado para o mês atual
     registro_usuario = PerfilFinanceiro.objects.filter(
