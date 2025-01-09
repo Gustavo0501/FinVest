@@ -4,6 +4,8 @@ pip install django
 
 pip install request
 
+pip install django-apscheduler
+
 
 
 O que precisa ser corrigido:
