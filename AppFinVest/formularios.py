@@ -113,3 +113,12 @@ class InformacoesFinanceirasForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
+
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(
+        widget=forms.EmailInput(attrs={"class": "form-control", "placeholder": "E-mail"})
+    )
+    senha = forms.CharField(
+        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "Senha"})
+    )

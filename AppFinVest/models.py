@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.hashers import check_password
 from django.utils.translation import gettext_lazy as _
 
 class Usuario(models.Model):
@@ -8,12 +9,15 @@ class Usuario(models.Model):
     cpf = models.CharField(max_length=11, unique=True) # apenas os números
     telefone = models.CharField(max_length=11) # apenas os números
     data_nascimento = models.DateField()
-    email = models.EmailField(_("email"))
+    email = models.EmailField(_("email"), unique=True)
     senha = models.CharField(_("senha"), max_length=128)
     tipo_perfil = models.CharField(max_length=45)
 
     def __str__(self):
         return self.nome_usuario
+
+    def check_password(self, raw_password):
+        return check_password(raw_password, self.senha)
 
 
 class PerfilFinanceiro(models.Model):

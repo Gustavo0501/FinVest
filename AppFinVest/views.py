@@ -1,5 +1,6 @@
 import requests
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from AppFinVest.models import PerfilFinanceiro
 from AppFinVest.models import Usuario
 import json
@@ -7,12 +8,45 @@ from django.utils import timezone
 import calendar
 import locale
 from AppFinVest.models import PrecoAtivo, TabelaGlobal, Observer
-from AppFinVest.formularios import RegistroUsuarioForm, InformacoesFinanceirasForm
+from AppFinVest.formularios import RegistroUsuarioForm, InformacoesFinanceirasForm, LoginForm
 from django.contrib.auth.hashers import make_password
 from datetime import datetime
 
+def login_required(view_func):
+    def wrapper(request, *args, **kwargs):
+        if 'usuario_id' not in request.session:
+            return redirect('login')
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
 def login(request):
-    return render(request, 'AppFinvest/pages/login.html')
+    if request.method == 'POST':
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            senha = form.cleaned_data['senha']
+
+            try:
+                usuario = Usuario.objects.get(email=email)
+                if usuario.check_password(senha):
+                    # Login bem-sucedido
+                    request.session['usuario_id'] = usuario.id
+                    return redirect('visao-geral')  # Redireciona para a página principal
+                else:
+                    form.add_error(None, "Senha incorreta.")
+            except Usuario.DoesNotExist:
+                form.add_error(None, "Usuário não encontrado.")
+    else:
+        form = LoginForm()
+
+    return render(request, 'AppFinVest/pages/login.html', {'form': form})
+
+@login_required
+def logout_view(request):
+    if 'usuario_id' in request.session:
+        del request.session['usuario_id']
+    return redirect('login')  # Redireciona para a página de login
+
 
 # View para a primeira etapa do registro (dados pessoais)
 def registro_etapa1(request):
@@ -85,10 +119,11 @@ def infoPerfilInvestidor(request):
 def infoPerfilEndividado(request):
     return render(request, 'AppFinVest/pages/perfilEndividado.html')
 
+@login_required
 def visao_geral(request):
     return render(request, 'AppFinVest/pages/visao-geral.html')
 
-
+@login_required
 def stock_table(request):
     tabela_global = TabelaGlobal.get_instance()
     stock_data = [
@@ -106,7 +141,7 @@ def stock_table(request):
     
     return render(request, 'AppFinVest/pages/acoes.html', {'stock_data': stock_data})
 
-
+@login_required
 def criptomoedas(request):
     tabela_global = TabelaGlobal.get_instance()
     cripto_data = [
@@ -121,9 +156,11 @@ def criptomoedas(request):
     
     return render(request, 'AppFinVest/pages/criptomoedas.html', {'criptomoedas': cripto_data})
 
+@login_required
 def graficos(request):
-    # Simulando o usuário logado (substitua com `request.user` se o sistema de autenticação estiver configurado)
-    usuario_logado = Usuario.objects.first()  # Pega o primeiro usuário como exemplo
+    # Pegando o usuário logado
+    usuario_id = request.session.get('usuario_id')
+    usuario_logado = Usuario.objects.get(id=usuario_id)
 
     locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
     
