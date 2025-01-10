@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 
 class Usuario(models.Model):
     primeiro_nome = models.CharField(max_length=45)
@@ -7,8 +8,8 @@ class Usuario(models.Model):
     cpf = models.CharField(max_length=11, unique=True) # apenas os números
     telefone = models.CharField(max_length=11) # apenas os números
     data_nascimento = models.DateField()
-    #foto_perfil = models.ImageField(
-    #    upload_to='recipes/covers/%Y/%m/%d/', blank=True, default='')
+    email = models.EmailField(_("email"))
+    senha = models.CharField(_("senha"), max_length=128)
     tipo_perfil = models.CharField(max_length=45)
 
     def __str__(self):

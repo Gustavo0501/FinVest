@@ -1,5 +1,5 @@
 import requests
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from AppFinVest.models import PerfilFinanceiro
 from AppFinVest.models import Usuario
 import json
@@ -7,9 +7,83 @@ from django.utils import timezone
 import calendar
 import locale
 from AppFinVest.models import PrecoAtivo, TabelaGlobal, Observer
+from AppFinVest.formularios import RegistroUsuarioForm, InformacoesFinanceirasForm
+from django.contrib.auth.hashers import make_password
+from datetime import datetime
 
 def login(request):
     return render(request, 'AppFinvest/pages/login.html')
+
+# View para a primeira etapa do registro (dados pessoais)
+def registro_etapa1(request):
+    print(request.method)
+    if request.method == 'POST':
+        form = RegistroUsuarioForm(request.POST)
+        if form.is_valid():
+            # Armazena os dados pessoais na sessão
+            dados_pessoais = form.cleaned_data
+            dados_pessoais['data_nascimento'] = str(dados_pessoais['data_nascimento'])  # Convertendo para string
+            request.session['registro_dados'] = dados_pessoais
+            return redirect('registroFinanceiro') #view registro_etapa2
+
+        if not form.is_valid():
+            print(form.errors)
+    else:
+        form = RegistroUsuarioForm()
+    return render(request, 'AppFinVest/pages/registro_etapa1.html', {'form': form})
+
+
+# View para a segunda etapa do registro (informações financeiras)
+def registro_etapa2(request):
+    action_form = 'registroFinanceiro'
+    # Verifica se os dados pessoais estão presentes na sessão
+    dados_pessoais = request.session.get('registro_dados')
+    if not dados_pessoais:
+        # Se não houver dados pessoais, redireciona para a primeira etapa
+        return redirect('registro')
+
+    if request.method == 'POST':
+        form = InformacoesFinanceirasForm(request.POST)
+        if form.is_valid():
+            # Cria o usuário com as informações da sessão
+            usuario = Usuario(
+                primeiro_nome=dados_pessoais['primeiro_nome'],
+                ultimo_nome=dados_pessoais['ultimo_nome'],
+                nome_usuario=dados_pessoais['nome_usuario'],
+                cpf=dados_pessoais['cpf'],
+                telefone=dados_pessoais['telefone'],
+                data_nascimento=datetime.strptime(dados_pessoais['data_nascimento'], '%Y-%m-%d').date(),  # Convertendo de string para date
+                email=dados_pessoais['email'],
+                senha=make_password(dados_pessoais['senha']),
+            )
+
+            usuario.save()
+
+            # Define o tipo de perfil com base nas informações financeiras
+            # Salva as informações financeiras 
+            perfil_financeiro = form.save(usuario=usuario)
+
+            # Atualiza o tipo de perfil do usuário 
+            usuario.tipo_perfil = perfil_financeiro.tipo_perfil 
+            usuario.save()
+            
+            # O tipo de perfil já foi calculado no método save do formulário 
+            if perfil_financeiro.tipo_perfil == 'Endividado': 
+                return redirect('infoPerfilEndividado') 
+            else: 
+                return redirect('infoPerfilInvestidor')
+
+
+
+    else:
+        form = InformacoesFinanceirasForm()
+    return render(request, 'AppFinVest/pages/registro_etapa2.html', {'form': form})
+
+def infoPerfilInvestidor(request):
+    return render(request, 'AppFinVest/pages/perfilInvestidor.html')
+
+def infoPerfilEndividado(request):
+    return render(request, 'AppFinVest/pages/perfilEndividado.html')
 
 def visao_geral(request):
     return render(request, 'AppFinVest/pages/visao-geral.html')

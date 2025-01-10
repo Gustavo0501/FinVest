@@ -1,0 +1,38 @@
+{% extends 'global/base.html' %}
+
+{% block title %}Registro | {% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h2>Informações Financeiras</h2>
+    <form method="POST" action="{% url 'registroFinanceiro' %}" class="form-registro">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.renda.label_tag }}
+            {{ form.renda }}
+            {% if form.renda.errors %}
+                <small class="text-danger">{{ form.renda.errors|striptags }}</small>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.divida.label_tag }}
+            {{ form.divida }}
+            {% if form.divida.errors %}
+                <small class="text-danger">{{ form.divida.errors|striptags }}</small>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.patrimonio.label_tag }}
+            {{ form.patrimonio }}
+            {% if form.patrimonio.errors %}
+                <small class="text-danger">{{ form.patrimonio.errors|striptags }}</small>
+            {% endif %}
+        </div>
+        <div class="form-buttons">
+            <button type="button" class="btn btn-voltar" onclick="history.back()">Voltar</button>
+            <button type="submit" class="btn">Concluir Cadastro</button>
+        </div>
+    </form>
+    <p class="link-login">Já tem uma conta? <a href="{% url 'login' %}">Faça login</a></p>
+</div>
+{% endblock content %}
