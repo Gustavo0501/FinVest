@@ -17,6 +17,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import include, path
 
+from AppFinVest.scheduler import start_scheduler 
+start_scheduler()
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('AppFinVest.urls')),
