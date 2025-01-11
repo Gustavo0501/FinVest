@@ -3,7 +3,7 @@
 {% block title %}Registro | {% endblock title %}
 
 {% block content %}
-<div class="container">
+<div class="container-cadastro">
     <h2>Informações Financeiras</h2>
     <form method="POST" action="{% url 'registroFinanceiro' %}" class="form-registro">
         {% csrf_token %}
@@ -11,21 +11,21 @@
             {{ form.renda.label_tag }}
             {{ form.renda }}
             {% if form.renda.errors %}
-                <small class="text-danger">{{ form.renda.errors|striptags }}</small>
+                <small class="error">{{ form.renda.errors|striptags }}</small>
             {% endif %}
         </div>
         <div class="form-group">
             {{ form.divida.label_tag }}
             {{ form.divida }}
             {% if form.divida.errors %}
-                <small class="text-danger">{{ form.divida.errors|striptags }}</small>
+                <small class="error">{{ form.divida.errors|striptags }}</small>
             {% endif %}
         </div>
         <div class="form-group">
             {{ form.patrimonio.label_tag }}
             {{ form.patrimonio }}
             {% if form.patrimonio.errors %}
-                <small class="text-danger">{{ form.patrimonio.errors|striptags }}</small>
+                <small class="error">{{ form.patrimonio.errors|striptags }}</small>
             {% endif %}
         </div>
         <div class="form-buttons">

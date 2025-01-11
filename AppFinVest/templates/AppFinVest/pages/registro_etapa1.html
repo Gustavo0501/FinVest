@@ -3,7 +3,7 @@
 {% block title %}Registro | {% endblock title %}
 
 {% block content %}
-<div class="container">
+<div class="container-cadastro">
     <h2>Cadastro de Usuário</h2>
     <form method="POST" action="{% url 'registro' %}" class="form-registro">
         {% csrf_token %}
@@ -12,56 +12,56 @@
             {{ form.primeiro_nome }}
             <!-- Exibe erro abaixo do campo -->
             {% if form.primeiro_nome.errors %}
-                <small class="text-danger">{{ form.primeiro_nome.errors|striptags }}</small>
+                <small class="error">{{ form.primeiro_nome.errors|striptags }}</small>
             {% endif %}
         </div>
         <div class="form-group">
             {{ form.ultimo_nome.label_tag }}
             {{ form.ultimo_nome }}
             {% if form.ultimo_nome.errors %}
-                <small class="text-danger">{{ form.ultimo_nome.errors|striptags }}</small>
+                <small class="error">{{ form.ultimo_nome.errors|striptags }}</small>
             {% endif %}
         </div>
         <div class="form-group">
             {{ form.nome_usuario.label_tag }}
             {{ form.nome_usuario }}
             {% if form.nome_usuario.errors %}
-                <small class="text-danger">{{ form.nome_usuario.errors|striptags }}</small>
+                <small class="error">{{ form.nome_usuario.errors|striptags }}</small>
             {% endif %}
         </div>
         <div class="form-group">
             {{ form.email.label_tag }}
             {{ form.email }}
             {% if form.email.errors %}
-                <small class="text-danger">{{ form.email.errors|striptags }}</small>
+                <small class="error">{{ form.email.errors|striptags }}</small>
             {% endif %}
         </div>
         <div class="form-group">
             {{ form.senha.label_tag }}
             {{ form.senha }}
             {% if form.senha.errors %}
-                <small class="text-danger">{{ form.senha.errors|striptags }}</small>
+                <small class="error">{{ form.senha.errors|striptags }}</small>
             {% endif %}
         </div>
         <div class="form-group">
             {{ form.cpf.label_tag }}
             {{ form.cpf }}
             {% if form.cpf.errors %}
-                <small class="text-danger">{{ form.cpf.errors|striptags }}</small>
+                <small class="error">{{ form.cpf.errors|striptags }}</small>
             {% endif %}
         </div>
         <div class="form-group">
             {{ form.telefone.label_tag }}
             {{ form.telefone }}
             {% if form.telefone.errors %}
-                <small class="text-danger">{{ form.telefone.errors|striptags }}</small>
+                <small class="error">{{ form.telefone.errors|striptags }}</small>
             {% endif %}
         </div>
         <div class="form-group">
             {{ form.data_nascimento.label_tag }}
             {{ form.data_nascimento }}
             {% if form.data_nascimento.errors %}
-                <small class="text-danger">{{ form.data_nascimento.errors|striptags }}</small>
+                <small class="error">{{ form.data_nascimento.errors|striptags }}</small>
             {% endif %}
         </div>
         <button type="submit" class="btn">Próximo</button>

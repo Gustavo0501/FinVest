@@ -8,9 +8,16 @@ from django.utils import timezone
 import calendar
 import locale
 from AppFinVest.models import PrecoAtivo, TabelaGlobal, Observer
-from AppFinVest.formularios import RegistroUsuarioForm, InformacoesFinanceirasForm, LoginForm
+from AppFinVest.formularios import RegistroUsuarioForm, InformacoesFinanceirasForm, LoginForm, UserProfileForm, UserPasswordChangeForm
 from django.contrib.auth.hashers import make_password
 from datetime import datetime
+
+def registro_required(view_func):
+    def wrapper(request, *args, **kwargs):
+        if 'registro_dados' not in request.session:
+            return redirect('registro')
+        return view_func(request, *args, **kwargs)
+    return wrapper
 
 def login_required(view_func):
     def wrapper(request, *args, **kwargs):
@@ -68,6 +75,7 @@ def registro_etapa1(request):
 
 
 # View para a segunda etapa do registro (informações financeiras)
+@registro_required
 def registro_etapa2(request):
     action_form = 'registroFinanceiro'
     # Verifica se os dados pessoais estão presentes na sessão
@@ -118,6 +126,55 @@ def infoPerfilInvestidor(request):
 
 def infoPerfilEndividado(request):
     return render(request, 'AppFinVest/pages/perfilEndividado.html')
+
+@login_required
+def perfil(request):
+    usuario_id = request.session.get('usuario_id')
+    usuario_logado = Usuario.objects.get(id=usuario_id)
+    
+    if request.method == 'POST': 
+        form = UserProfileForm(request.POST, instance=usuario_logado) 
+        if form.is_valid(): 
+            form.save() 
+            return redirect('perfil') 
+    else: 
+        form = UserProfileForm(instance=usuario_logado)
+    
+    return render(request, 'AppFinVest/pages/perfil.html', {'form': form})
+
+
+@login_required
+def change_password(request):
+    usuario_id = request.session.get('usuario_id')
+    usuario_logado = Usuario.objects.get(id=usuario_id)
+
+    if request.method == 'POST':
+        form = UserPasswordChangeForm(request.POST, Usuario=usuario_logado)
+        if form.is_valid():
+            form.save()
+            return redirect('perfil')
+    else:
+        form = UserPasswordChangeForm(Usuario=usuario_logado)
+    return render(request, 'AppFinVest/pages/change_password.html', {'form': form})
+
+@login_required
+def excluir_conta(request):
+    if request.method == "POST":
+        usuario_id = request.session.get('usuario_id')
+        try:
+            # Exclui o usuário logado
+            usuario = Usuario.objects.get(id=usuario_id)
+            usuario.delete()
+            # Limpa a sessão
+            request.session.flush()
+            # Redireciona para a página de login ou inicial
+            return redirect('login')
+        except Usuario.DoesNotExist:
+            # Caso o usuário não exista, redireciona para a página de perfil
+            return redirect('perfil')
+    else:
+        # Apenas permite POST
+        return redirect('perfil')
 
 @login_required
 def visao_geral(request):
