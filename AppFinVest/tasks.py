@@ -18,12 +18,10 @@ def atualizar_precos_acoes():
             response.raise_for_status()
 
             data = response.json()
-            logger.info(data)
             if "Time Series (Daily)" in data:
                 latest_date = next(iter(data["Time Series (Daily)"]))
                 time_series = data["Time Series (Daily)"][latest_date]
 
-                logger.info(f"3. Ativo: {ativo.nome_ativo}")
                 ativo.atualizar_ativo_acao(
                     data=datetime.strptime(latest_date, "%Y-%m-%d"),
                     abertura=float(time_series["1. open"]),
@@ -32,8 +30,6 @@ def atualizar_precos_acoes():
                     fechamento=float(time_series["4. close"]),
                     volume=int(time_series["5. volume"])
                 )
-
-                logger.info(f"Ação {ativo.nome_ativo} atualizada.")
 
         except requests.exceptions.RequestException as e:
             logger.error(f"Erro ao acessar API Alpha Vantage para {ativo.nome_ativo}: {str(e)}")
@@ -45,8 +41,6 @@ def atualizar_precos_acoes():
 def atualizar_precos_criptomoedas():
     tabela_global = TabelaGlobal.get_instance()
     criptomoedas = tabela_global.ativos.filter(tipo="Criptomoeda")
-
-    logger.info("Iniciando atualização de criptomoedas...")
 
     url = "https://api.coingecko.com/api/v3/coins/markets"
     params = {
@@ -71,7 +65,6 @@ def atualizar_precos_criptomoedas():
                     volume_24h=cripto['total_volume']
                 )
 
-                logger.info(f"Criptomoeda {ativo.nome_ativo} atualizada.")
 
     except requests.exceptions.RequestException as e:
         logger.error(f"Erro ao acessar API CoinGecko: {str(e)}")
