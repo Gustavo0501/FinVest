@@ -1,6 +1,9 @@
 from django.db import models
 from django.contrib.auth.hashers import check_password
 from django.utils.translation import gettext_lazy as _
+from django.contrib.messages import add_message
+from django.contrib.messages.constants import INFO
+from django.core.cache import cache
 
 class Usuario(models.Model):
     primeiro_nome = models.CharField(max_length=45)
@@ -33,21 +36,31 @@ class PerfilFinanceiro(models.Model):
 
 
 
-
 class PrecoAtivo(models.Model):
-    nome_ativo = models.CharField(max_length=100)  # Ação e Criptomoeda
-    tipo = models.CharField(max_length=50, choices=[("Ação", "Ação"), ("Criptomoeda", "Criptomoeda")]) # Este atributo não será atualizado
-    preco_atual = models.FloatField(default=0.0, null=True, blank=True) # Criptomoeda
-    capitalizacao_mercado = models.FloatField(null=True, blank=True) # Criptomoeda
-    volume_24h = models.FloatField(null=True, blank=True) # Criptomoeda
-    data = models.DateField() # Ação
-    abertura = models.FloatField(null=True, blank=True) # Ação
-    maximo = models.FloatField(null=True, blank=True) # Ação
-    minimo = models.FloatField(null=True, blank=True) # Ação
-    fechamento = models.FloatField(null=True, blank=True) # Ação
-    volume = models.BigIntegerField(null=True, blank=True) # Ação          
+    nome_ativo = models.CharField(max_length=100)  # Nome do ativo (Ação ou Criptomoeda)
+    tipo = models.CharField(
+        max_length=50,
+        choices=[("Ação", "Ação"), ("Criptomoeda", "Criptomoeda")],
+    )  # Tipo do ativo
+    preco_atual = models.FloatField(default=0.0, null=True, blank=True)  # Criptomoeda
+    capitalizacao_mercado = models.FloatField(null=True, blank=True)  # Criptomoeda
+    volume_24h = models.FloatField(null=True, blank=True)  # Criptomoeda
+    data = models.DateField(null=True, blank=True)  # Ação
+    abertura = models.FloatField(null=True, blank=True)  # Ação
+    maximo = models.FloatField(null=True, blank=True)  # Ação
+    minimo = models.FloatField(null=True, blank=True)  # Ação
+    fechamento = models.FloatField(null=True, blank=True)  # Ação
+    volume = models.BigIntegerField(null=True, blank=True)  # Ação
 
-    def atualizar_ativo_acao(self, data=None, abertura=None, maximo=None, minimo=None, fechamento=None, volume=None):
+
+    def save(self, *args, **kwargs):
+        """Salva o ativo e garante que um observer padrão exista."""
+        super().save(*args, **kwargs)
+        if not self.observers.exists():
+            Observer.objects.create(ativo=self)  # Cria um observer padrão
+
+    # 🔧 Método para atualizar dados de ações
+    def atualizar_ativo_acao(self, data=None, abertura=None, maximo=None, minimo=None, fechamento=None, volume=None, request=None):
         self.data = data
         self.abertura = abertura
         self.maximo = maximo
@@ -56,40 +69,50 @@ class PrecoAtivo(models.Model):
         self.volume = volume
         self.save()
         print(f"Ação {self.nome_ativo} atualizada com sucesso.")
+        self.notificar_observers(request)
 
-    # 🔧 Método para atualizar criptomoedas
-    def atualizar_ativo_criptomoeda(self, preco_atual=None, capitalizacao_mercado=None, volume_24h=None):
+    # 🔧 Método para atualizar dados de criptomoedas
+    def atualizar_ativo_criptomoeda(self, preco_atual=None, capitalizacao_mercado=None, volume_24h=None, request=None):
         self.preco_atual = preco_atual
         self.capitalizacao_mercado = capitalizacao_mercado
         self.volume_24h = volume_24h
         self.save()
         print(f"Criptomoeda {self.nome_ativo} atualizada com sucesso.")
+        self.notificar_observers(request)
 
+    # 🔔 Método para adicionar um observer
     def adicionar_observer(self, observer):
         Observer.objects.create(ativo=self, **observer)
 
+    # 🔔 Método para remover um observer
     def remover_observer(self, observer):
         Observer.objects.filter(ativo=self, **observer).delete()
 
-    def notificar_observers(self):
+    # 🔔 Método para notificar os observers
+    def notificar_observers(self, request=None):
         for observer in self.observers.all():
-            observer.atualizar(self.preco_atual)
+            observer.atualizar(self, request)
 
     def __str__(self):
         return f"{self.nome_ativo} ({self.tipo}): R$ {self.preco_atual}"
 
+
+
 class Observer(models.Model):
-    ativo = models.ForeignKey(PrecoAtivo, on_delete=models.CASCADE, related_name="observers")
+    ativo = models.ForeignKey("PrecoAtivo", on_delete=models.CASCADE, related_name="observers")
 
-    def atualizar(self, preco):
-        # Implemente a lógica de notificação desejada
-        print(f"O preço do ativo foi atualizado para {preco:.2f}")
+    def atualizar(self, ativo, request=None):
+        nome_ativo = ativo.nome_ativo
 
-    def adicionar_observer(self, observer_instance):
-        Observer.objects.create(ativo=self)
+        # Adiciona mensagem ao cache
+        ativos_atualizados = cache.get("ativos_atualizados", [])
+        ativos_atualizados.append(nome_ativo)
+        cache.set("ativos_atualizados", ativos_atualizados, timeout=3600) # expira em 1 hora
 
-    def remover_observer(self, observer_instance):
-        Observer.objects.filter(ativo=self).delete()
+    def __str__(self):
+        return f"Observador do ativo {self.ativo.nome_ativo}"
+
+
 
 # Singleton para armazenar os ativos globalmente
 class TabelaGlobal(models.Model):

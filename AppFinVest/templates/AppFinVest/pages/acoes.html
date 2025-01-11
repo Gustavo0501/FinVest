@@ -42,9 +42,14 @@
     <div class="conteudo-principal">
         <div class="container">
             <h1>Tabela de Cotações</h1>
-        {% if error_message %}
-            <p class="error">{{ error_message }}</p>
-        {% endif %}
+            {% if error_message %}
+                <p class="error">{{ error_message }}</p>
+            {% endif %}
+            {% if mensagem_atualizacao %}
+                <div class="alert alert-info">
+                    {{ mensagem_atualizacao }}
+                </div>
+            {% endif %}
         <table>
             <thead>
                 <tr>

@@ -43,9 +43,14 @@
     <div class="conteudo-principal">
         <div class="container">
             <h1>Top 10 Criptomoedas</h1>
-        {% if error_message %}
-            <p class="error">{{ error_message }}</p>
-        {% else %}
+            {% if error_message %}
+                <p class="error">{{ error_message }}</p>
+            {% else %}
+            {% if mensagem_atualizacao %}
+                <div class="alert alert-info">
+                    {{ mensagem_atualizacao }}
+                </div>
+            {% endif %}
             <table>
                 <thead>
                     <tr>

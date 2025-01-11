@@ -11,6 +11,7 @@ from AppFinVest.models import PrecoAtivo, TabelaGlobal, Observer
 from AppFinVest.formularios import RegistroUsuarioForm, InformacoesFinanceirasForm, LoginForm, UserProfileForm, UserPasswordChangeForm
 from django.contrib.auth.hashers import make_password
 from datetime import datetime
+from django.core.cache import cache
 
 def registro_required(view_func):
     def wrapper(request, *args, **kwargs):
@@ -195,8 +196,22 @@ def stock_table(request):
         }
         for acao in tabela_global.get_acoes()
     ]
+
+    # Recupera os nomes dos ativos atualizados
+    ativos_atualizados_sessao = request.session.pop("ativos_atualizados", [])
+    ativos_atualizados_cache = cache.get("ativos_atualizados", [])
+    cache.delete("ativos_atualizados")
+
+    ativos_atualizados = ativos_atualizados_sessao + ativos_atualizados_cache
+
+    # Gera uma única mensagem consolidada
+    mensagem_atualizacao = (
+        f"As ações {', '.join(ativos_atualizados)} foram atualizadas."
+        if ativos_atualizados
+        else None
+    )
     
-    return render(request, 'AppFinVest/pages/acoes.html', {'stock_data': stock_data})
+    return render(request, 'AppFinVest/pages/acoes.html', {'stock_data': stock_data, "mensagem_atualizacao": mensagem_atualizacao})
 
 @login_required
 def criptomoedas(request):
@@ -210,8 +225,22 @@ def criptomoedas(request):
         }
         for cripto in tabela_global.get_criptomoedas()
     ]
+
+    # Recupera os nomes dos ativos atualizados
+    ativos_atualizados_sessao = request.session.pop("ativos_atualizados", [])
+    ativos_atualizados_cache = cache.get("ativos_atualizados", [])
+    cache.delete("ativos_atualizados")
+
+    ativos_atualizados = ativos_atualizados_sessao + ativos_atualizados_cache
+
+    # Gera uma única mensagem consolidada
+    mensagem_atualizacao = (
+        f"As criptomoedas {', '.join(ativos_atualizados)} foram atualizadas."
+        if ativos_atualizados
+        else None
+    )
     
-    return render(request, 'AppFinVest/pages/criptomoedas.html', {'criptomoedas': cripto_data})
+    return render(request, 'AppFinVest/pages/criptomoedas.html', {'criptomoedas': cripto_data, "mensagem_atualizacao": mensagem_atualizacao})
 
 @login_required
 def graficos(request):
