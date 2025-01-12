@@ -18,14 +18,14 @@
 
     <form method="POST" action="{% url 'login' %}">
         {% csrf_token %}
-        <div class="form-group">
+        <div class="formulario">
             {{ form.email.label_tag }}
             {{ form.email }}
             {% if form.email.errors %}
                 <small class="error">{{ form.email.errors|striptags }}</small>
             {% endif %}
         </div>
-        <div class="form-group">
+        <div class="formulario">
             {{ form.senha.label_tag }}
             {{ form.senha }}
             {% if form.senha.errors %}

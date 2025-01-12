@@ -1,3 +1,5 @@
+/* Estilização geral */
+
 * {
     padding: 0;
     margin: 0;
@@ -9,7 +11,7 @@ body{
     background-color: #F5F6FA;
 }
 
-/*Header.html*/
+/* Estilização do Header */
 
 header {
     background-color: #1B50AC;
@@ -31,24 +33,24 @@ header {
     text-align: center;
 }
 
-.user-info {
+.info-usuario {
     display: flex;
     align-items: center;
-    margin-left: auto; /* Garante que as informações fiquem no lado direito */
+    margin-left: auto;
     color: white;
 }
 
-.username {
+.nome_usuario {
     font-size: 15px;
 }
 
-.user-role {
+.tipo-usuario {
     font-size: 10px;
     text-align: end;
 }
 
-.profile-icon {
-    font-size: 24px; /* Tamanho do ícone */
+.icone-perfil {
+    font-size: 24px;
     color: white;
     text-decoration: none;
     padding: 5px;
@@ -57,13 +59,14 @@ header {
     margin-left: 25px;
 }
 
-.profile-icon:hover {
+.icone-perfil:hover {
     background-color: rgba(255, 255, 255, 0.2);
     transform: scale(1.1);
     cursor: pointer;
 }
 
-/*Página de Login*/
+
+/* Estilização da Página de Login */
 
 .container-login {
     background-color: white;
@@ -90,38 +93,6 @@ header {
     font-style: normal;
 }
 
-.login-form{
-    display: flex;
-    flex-direction: column;
-}
-
-.login-form input[type="text"], .login-form input[type="password"] {
-    padding: 10px;
-    margin: 20px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
-    width: 400px;
-}
-
-.login-form input[type="submit"] {
-    width: 250px;
-    margin: auto;
-    margin-bottom: 20px;
-    padding: 10px;
-    background-color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    font-weight: bold;
-    color: #1e5ab7;
-    cursor: pointer;
-}
-
-.login-form input[type="submit"]:hover {
-    background-color: #ddd;
-}
-
 .link-cadastro{
     color: white;
     font-size: 20px;
@@ -132,16 +103,15 @@ header {
 }
 
 
+/* Estilização das paginas principais do site */
 
-
-/*Aqui vai o css das paginas principais do site*/
 .corpo-pagina {
     display: flex;
     margin: 20px;
     align-items: flex-start;
 }
 
-.sidebar {
+.menu-lateral {
     width: 300px;
     background-color: #fff;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
@@ -236,6 +206,7 @@ header {
 
 
 /* Estilização da tabela de ações */
+
 .container {
     max-width: 100%;
     margin: auto;
@@ -267,6 +238,28 @@ td {
     color: red;
 }
 
+/* Estilização de Fomrulários */
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 15px;
+}
+
+.formulario label {
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 5px;
+    text-align: left;
+}
+
+.formulario input {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
 
 /*Páginas de Cadastro*/
 
@@ -288,26 +281,6 @@ h1 {
     margin-bottom: 20px;
 }
 
-.form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 15px;
-}
-
-.form-group label {
-    font-size: 14px;
-    color: #333;
-    margin-bottom: 5px;
-    text-align: left;
-}
-
-.form-group input {
-    padding: 10px;
-    font-size: 16px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-}
-
 button.btn {
     background-color: #1B50AC;
     color: white;
@@ -323,7 +296,6 @@ button.btn:hover {
     background-color: #164a93;
 }
 
-/* Ajuste para o link de login */
 .link-login {
     margin-top: 10px;
     font-size: 14px;
@@ -339,8 +311,9 @@ button.btn:hover {
 }
 
 
-/*Página de Perfil*/
-.profile-container {
+/* Página de Perfil */
+
+.container-perfil {
     display: flex;
     max-width: 1200px;
     margin: 50px auto;
@@ -348,32 +321,32 @@ button.btn:hover {
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.profile-left {
+.perfil-esquerdo {
     width: 30%;
     padding: 20px;
     border-right: 1px solid #ddd;
 }
-.profile-right {
+.perfil-direito {
     width: 70%;
     padding: 20px;
 }
-.profile-username {
+.perfil-nome_usuario {
     font-size: 20px;
     margin-bottom: 10px;
 }
-.profile-role {
+.perfil-tipo_usuario {
     font-size: 14px;
     color: #666;
     margin-bottom: 20px;
 }
-.profile-buttons {
+.botoes-perfil {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin-top: 30px;
 }
-.profile-buttons a,
-.profile-buttons button {
+.botoes-perfil a,
+.botoes-perfil button {
     width: 100%;
     padding: 10px 0;
     border: none;
@@ -387,24 +360,25 @@ button.btn:hover {
     transition: background-color 0.3s ease;
 }
 
-.profile-buttons button.logout {
+.botoes-perfil button.logout {
     background-color: #d32f2f;
     width: 307px;
 }
 
-.profile-buttons button.delete {
+.botoes-perfil button.delete {
     background-color: #d32f2f;
     width: 307px;
 }
 
-.profile-buttons button.logout:hover {
+.botoes-perfil button.logout:hover {
     background-color: #a31a1a;
 }
 
-.profile-buttons button.delete:hover {
+.botoes-perfil button.delete:hover {
     background-color: #a31a1a;
 }
-.update-profile-button {
+
+.botao-atualizar-dados {
     display: block;
     width: 100%;
     padding: 10px;
@@ -416,7 +390,7 @@ button.btn:hover {
     border-radius: 5px;
 }
 
-.back-profile-button {
+.botao-voltar {
     display: block;
     width: fit-content;
     padding: 10px;
@@ -430,7 +404,7 @@ button.btn:hover {
     margin-top: 470px;
 }
 
-.change-password-link { 
+.link-mudar-senha { 
     display: block; 
     margin-top: 20px; 
     padding: 10px; 
@@ -442,20 +416,21 @@ button.btn:hover {
     transition: background-color 0.3s ease; 
 } 
 
-.change-password-link:hover { 
+.link-mudar-senha:hover { 
     background-color: #164a93; 
 }
 
 
 /* Estilos do formulário de mudança de senha */
-.change-password-container {
+
+.container-mudar-senha {
     max-width: 500px;
     margin: 50px auto;
     padding: 20px;
     background-color: white;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
-.change-password-button {
+.botao-mudar-senha {
     display: block;
     width: 100%;
     padding: 10px;
@@ -464,7 +439,7 @@ button.btn:hover {
     color: white;
     cursor: pointer;
 }
-.back-button {
+.botao-voltar-mudar-senha {
     display: block;
     width: 100%;
     padding: 10px;
@@ -478,14 +453,8 @@ button.btn:hover {
 
 
 /* Estilização das mensagens */
-.messages {
-    margin: 20px 0;
-    padding: 10px;
-    border-radius: 5px;
-    font-family: "Poppins", sans-serif;
-}
 
-.alert {
+.alerta {
     padding: 15px;
     margin-bottom: 10px;
     border: 1px solid transparent;
@@ -494,26 +463,8 @@ button.btn:hover {
     text-align: center;
 }
 
-.alert-info {
+.alerta-info {
     color: #31708f;
     background-color: #d9edf7;
     border-color: #bce8f1;
-}
-
-.alert-success {
-    color: #3c763d;
-    background-color: #dff0d8;
-    border-color: #d6e9c6;
-}
-
-.alert-warning {
-    color: #8a6d3b;
-    background-color: #fcf8e3;
-    border-color: #faebcc;
-}
-
-.alert-danger {
-    color: #a94442;
-    background-color: #f2dede;
-    border-color: #ebccd1;
 }

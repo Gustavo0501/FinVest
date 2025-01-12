@@ -7,21 +7,21 @@
     <h2>Informações Financeiras</h2>
     <form method="POST" action="{% url 'registroFinanceiro' %}" class="form-registro">
         {% csrf_token %}
-        <div class="form-group">
+        <div class="formulario">
             {{ form.renda.label_tag }}
             {{ form.renda }}
             {% if form.renda.errors %}
                 <small class="error">{{ form.renda.errors|striptags }}</small>
             {% endif %}
         </div>
-        <div class="form-group">
+        <div class="formulario">
             {{ form.divida.label_tag }}
             {{ form.divida }}
             {% if form.divida.errors %}
                 <small class="error">{{ form.divida.errors|striptags }}</small>
             {% endif %}
         </div>
-        <div class="form-group">
+        <div class="formulario">
             {{ form.patrimonio.label_tag }}
             {{ form.patrimonio }}
             {% if form.patrimonio.errors %}

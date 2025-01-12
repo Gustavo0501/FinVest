@@ -17,12 +17,12 @@
             }
         }
     </script>
-    <div class="profile-container">
-        <div class="profile-left">
-            <div class="profile-username">{{usuario_logado.primeiro_nome}} {{usuario_logado.ultimo_nome}}</div>
-            <div class="profile-role">{{usuario_logado.nome_usuario}}</div>
-            <div class="profile-buttons">
-                <a href="{% url 'change_password' %}" class="change-password-link">Mudar Senha</a>
+    <div class="container-perfil">
+        <div class="perfil-esquerdo">
+            <div class="perfil-nome_usuario">{{usuario_logado.primeiro_nome}} {{usuario_logado.ultimo_nome}}</div>
+            <div class="perfil-tipo_usuario">{{usuario_logado.nome_usuario}}</div>
+            <div class="botoes-perfil">
+                <a href="{% url 'change_password' %}" class="link-mudar-senha">Mudar Senha</a>
                 <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button type="submit" class="logout">Logout</button>
@@ -32,13 +32,13 @@
                     <button type="button" class="delete" onclick="confirmDelete()">Excluir Conta</button>
                 </form>
             </div>
-            <a href="{% url 'visao-geral' %}" class="back-profile-button">Voltar</a>
+            <a href="{% url 'visao-geral' %}" class="botao-voltar">Voltar</a>
         </div>
-        <div class="profile-right"> 
+        <div class="perfil-direito"> 
             <h2>Informações do Usuário</h2> 
             <form method="POST">
                 {% csrf_token %}
-                <div class="form-group">
+                <div class="formulario">
                     {{ form.primeiro_nome.label_tag }}
                     {{ form.primeiro_nome }}
                     <!-- Exibe erro abaixo do campo -->
@@ -46,49 +46,49 @@
                         <small class="error">{{ form.primeiro_nome.errors|striptags }}</small>
                     {% endif %}
                 </div>
-                <div class="form-group">
+                <div class="formulario">
                     {{ form.ultimo_nome.label_tag }}
                     {{ form.ultimo_nome }}
                     {% if form.ultimo_nome.errors %}
                         <small class="error">{{ form.ultimo_nome.errors|striptags }}</small>
                     {% endif %}
                 </div>
-                <div class="form-group">
+                <div class="formulario">
                     {{ form.nome_usuario.label_tag }}
                     {{ form.nome_usuario }}
                     {% if form.nome_usuario.errors %}
                         <small class="error">{{ form.nome_usuario.errors|striptags }}</small>
                     {% endif %}
                 </div>
-                <div class="form-group">
+                <div class="formulario">
                     {{ form.cpf.label_tag }}
                     {{ form.cpf }}
                     {% if form.cpf.errors %}
                         <small class="error">{{ form.cpf.errors|striptags }}</small>
                     {% endif %}
                 </div>
-                <div class="form-group">
+                <div class="formulario">
                     {{ form.telefone.label_tag }}
                     {{ form.telefone }}
                     {% if form.telefone.errors %}
                         <small class="error">{{ form.telefone.errors|striptags }}</small>
                     {% endif %}
                 </div>
-                <div class="form-group">
+                <div class="formulario">
                     {{ form.data_nascimento.label_tag }}
                     {{ form.data_nascimento }}
                     {% if form.data_nascimento.errors %}
                         <small class="error">{{ form.data_nascimento.errors|striptags }}</small>
                     {% endif %}
                 </div>
-                <div class="form-group">
+                <div class="formulario">
                     {{ form.email.label_tag }}
                     {{ form.email }}
                     {% if form.email.errors %}
                         <small class="error">{{ form.email.errors|striptags }}</small>
                     {% endif %}
                 </div>
-                <button type="submit" class="update-profile-button">Atualizar Dados</button>
+                <button type="submit" class="botao-atualizar-dados">Atualizar Dados</button>
             </form>
         </div>
     </div>
