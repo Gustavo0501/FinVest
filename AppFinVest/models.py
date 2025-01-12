@@ -102,12 +102,15 @@ class Observer(models.Model):
     ativo = models.ForeignKey("PrecoAtivo", on_delete=models.CASCADE, related_name="observers")
 
     def atualizar(self, ativo, request=None):
-        nome_ativo = ativo.nome_ativo
+        tipo = ativo.tipo.lower()  # "ação" ou "criptomoeda"
+        cache_key = f"{tipo}_atualizadas"  # "ação_atualizadas" ou "criptomoeda_atualizadas"
 
-        # Adiciona mensagem ao cache
-        ativos_atualizados = cache.get("ativos_atualizados", [])
-        ativos_atualizados.append(nome_ativo)
-        cache.set("ativos_atualizados", ativos_atualizados, timeout=3600) # expira em 1 hora
+        # Recupera a lista atual do cache
+        ativos_atualizados = cache.get(cache_key, [])
+        if ativo.nome_ativo not in ativos_atualizados:
+            ativos_atualizados.append(ativo.nome_ativo)
+        cache.set(cache_key, ativos_atualizados, timeout=3600)  # Expira em 1 hora
+
 
     def __str__(self):
         return f"Observador do ativo {self.ativo.nome_ativo}"

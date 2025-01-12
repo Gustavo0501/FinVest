@@ -8,7 +8,7 @@ from django.utils import timezone
 import calendar
 import locale
 from AppFinVest.models import PrecoAtivo, TabelaGlobal, Observer
-from AppFinVest.formularios import RegistroUsuarioForm, InformacoesFinanceirasForm, LoginForm, UserProfileForm, UserPasswordChangeForm
+from AppFinVest.formularios import FormularioRegistroUsuario, FormularioInfoFinanceiras, FormularioLogin, FormularioPerfilUsuario, FormularioMudarSenha
 from django.contrib.auth.hashers import make_password
 from datetime import datetime
 from django.core.cache import cache
@@ -29,7 +29,7 @@ def login_required(view_func):
 
 def login(request):
     if request.method == 'POST':
-        form = LoginForm(request.POST)
+        form = FormularioLogin(request.POST)
         if form.is_valid():
             email = form.cleaned_data['email']
             senha = form.cleaned_data['senha']
@@ -45,7 +45,7 @@ def login(request):
             except Usuario.DoesNotExist:
                 form.add_error(None, "Usuário não encontrado.")
     else:
-        form = LoginForm()
+        form = FormularioLogin()
 
     return render(request, 'AppFinVest/pages/login.html', {'form': form})
 
@@ -58,9 +58,8 @@ def logout_view(request):
 
 # View para a primeira etapa do registro (dados pessoais)
 def registro_etapa1(request):
-    print(request.method)
     if request.method == 'POST':
-        form = RegistroUsuarioForm(request.POST)
+        form = FormularioRegistroUsuario(request.POST)
         if form.is_valid():
             # Armazena os dados pessoais na sessão
             dados_pessoais = form.cleaned_data
@@ -71,14 +70,13 @@ def registro_etapa1(request):
         if not form.is_valid():
             print(form.errors)
     else:
-        form = RegistroUsuarioForm()
+        form = FormularioRegistroUsuario()
     return render(request, 'AppFinVest/pages/registro_etapa1.html', {'form': form})
 
 
 # View para a segunda etapa do registro (informações financeiras)
 @registro_required
 def registro_etapa2(request):
-    action_form = 'registroFinanceiro'
     # Verifica se os dados pessoais estão presentes na sessão
     dados_pessoais = request.session.get('registro_dados')
     if not dados_pessoais:
@@ -86,7 +84,7 @@ def registro_etapa2(request):
         return redirect('registro')
 
     if request.method == 'POST':
-        form = InformacoesFinanceirasForm(request.POST)
+        form = FormularioInfoFinanceiras(request.POST)
         if form.is_valid():
             # Cria o usuário com as informações da sessão
             usuario = Usuario(
@@ -119,7 +117,7 @@ def registro_etapa2(request):
 
 
     else:
-        form = InformacoesFinanceirasForm()
+        form = FormularioInfoFinanceiras()
     return render(request, 'AppFinVest/pages/registro_etapa2.html', {'form': form})
 
 def infoPerfilInvestidor(request):
@@ -134,12 +132,12 @@ def perfil(request):
     usuario_logado = Usuario.objects.get(id=usuario_id)
     
     if request.method == 'POST': 
-        form = UserProfileForm(request.POST, instance=usuario_logado) 
+        form = FormularioPerfilUsuario(request.POST, instance=usuario_logado) 
         if form.is_valid(): 
             form.save() 
             return redirect('perfil') 
     else: 
-        form = UserProfileForm(instance=usuario_logado)
+        form = FormularioPerfilUsuario(instance=usuario_logado)
     
     return render(request, 'AppFinVest/pages/perfil.html', {'form': form})
 
@@ -150,12 +148,12 @@ def mudar_senha(request):
     usuario_logado = Usuario.objects.get(id=usuario_id)
 
     if request.method == 'POST':
-        form = UserPasswordChangeForm(request.POST, Usuario=usuario_logado)
+        form = FormularioMudarSenha(request.POST, Usuario=usuario_logado)
         if form.is_valid():
             form.save()
             return redirect('perfil')
     else:
-        form = UserPasswordChangeForm(Usuario=usuario_logado)
+        form = FormularioMudarSenha(Usuario=usuario_logado)
     return render(request, 'AppFinVest/pages/mudar_senha.html', {'form': form})
 
 @login_required
@@ -182,9 +180,9 @@ def visao_geral(request):
     return render(request, 'AppFinVest/pages/visao-geral.html')
 
 @login_required
-def stock_table(request):
+def tabela_acoes(request):
     tabela_global = TabelaGlobal.get_instance()
-    stock_data = [
+    dados_acoes = [
         {
             "symbol": acao.nome_ativo,
             "date": acao.data,
@@ -197,26 +195,16 @@ def stock_table(request):
         for acao in tabela_global.get_acoes()
     ]
 
-    # Recupera os nomes dos ativos atualizados
-    ativos_atualizados_sessao = request.session.pop("ativos_atualizados", [])
-    ativos_atualizados_cache = cache.get("ativos_atualizados", [])
-    cache.delete("ativos_atualizados")
-
-    ativos_atualizados = ativos_atualizados_sessao + ativos_atualizados_cache
-
-    # Gera uma única mensagem consolidada
-    mensagem_atualizacao = (
-        f"As ações {', '.join(ativos_atualizados)} foram atualizadas."
-        if ativos_atualizados
-        else None
-    )
+    # Recupera os nomes das ações atualizadas do cache
+    acoes_atualizadas = cache.get("ação_atualizadas", [])
+    mensagem_atualizacao = f"As seguintes ações foram atualizadas: {', '.join(acoes_atualizadas)}" if acoes_atualizadas else None
     
-    return render(request, 'AppFinVest/pages/acoes.html', {'stock_data': stock_data, "mensagem_atualizacao": mensagem_atualizacao})
+    return render(request, 'AppFinVest/pages/acoes.html', {'dados_acoes': dados_acoes, "mensagem_atualizacao": mensagem_atualizacao})
 
 @login_required
 def criptomoedas(request):
     tabela_global = TabelaGlobal.get_instance()
-    cripto_data = [
+    dados_criptomoedas = [
         {
             "name": cripto.nome_ativo,
             "current_price": cripto.preco_atual,
@@ -226,21 +214,11 @@ def criptomoedas(request):
         for cripto in tabela_global.get_criptomoedas()
     ]
 
-    # Recupera os nomes dos ativos atualizados
-    ativos_atualizados_sessao = request.session.pop("ativos_atualizados", [])
-    ativos_atualizados_cache = cache.get("ativos_atualizados", [])
-    cache.delete("ativos_atualizados")
-
-    ativos_atualizados = ativos_atualizados_sessao + ativos_atualizados_cache
-
-    # Gera uma única mensagem consolidada
-    mensagem_atualizacao = (
-        f"As criptomoedas {', '.join(ativos_atualizados)} foram atualizadas."
-        if ativos_atualizados
-        else None
-    )
+    # Recupera os nomes das criptomoedas atualizadas do cache
+    criptomoedas_atualizadas = cache.get("criptomoeda_atualizadas", [])
+    mensagem_atualizacao = f"As seguintes criptomoedas foram atualizadas: {', '.join(criptomoedas_atualizadas)}" if criptomoedas_atualizadas else None
     
-    return render(request, 'AppFinVest/pages/criptomoedas.html', {'criptomoedas': cripto_data, "mensagem_atualizacao": mensagem_atualizacao})
+    return render(request, 'AppFinVest/pages/criptomoedas.html', {'criptomoedas': dados_criptomoedas, "mensagem_atualizacao": mensagem_atualizacao})
 
 @login_required
 def graficos(request):
@@ -252,12 +230,12 @@ def graficos(request):
     
     # Obtém o mês e o ano atuais
     now = timezone.now()
-    current_month = calendar.month_name[now.month].capitalize()
+    mes_atual = calendar.month_name[now.month].capitalize()
 
     # Filtra os registros financeiros do usuário logado para o mês atual
     registro_usuario = PerfilFinanceiro.objects.filter(
         usuario=usuario_logado,
-        mes_referente=current_month,
+        mes_referente=mes_atual,
     )
 
     # Obtém o último registro, se existir
@@ -279,7 +257,7 @@ def graficos(request):
             PerfilFinanceiro.objects.create(
                 usuario=usuario_logado,
                 tipo_perfil=usuario_logado.tipo_perfil,
-                mes_referente=current_month,
+                mes_referente=mes_atual,
                 renda=renda,
                 divida=divida,
                 patrimonio=patrimonio

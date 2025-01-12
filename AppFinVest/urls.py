@@ -13,7 +13,7 @@ urlpatterns = [
     path('perfil/mudar-senha', views.mudar_senha, name='mudar_senha'),
     path('excluir-conta/', views.excluir_conta, name='excluir_conta'),
     path('visao-geral/', views.visao_geral, name='visao-geral'),
-    path('acoes/', views.stock_table),
+    path('acoes/', views.tabela_acoes),
     path('criptomoedas/', views.criptomoedas),
     path('graficos/', views.graficos),
 ]

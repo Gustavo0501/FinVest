@@ -1,7 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.interval import IntervalTrigger
 from django_apscheduler.jobstores import DjangoJobStore, register_events, register_job
-from AppFinVest.tasks import atualizar_precos
+from AppFinVest.tarefas import atualizar_precos
 import logging
 
 logger = logging.getLogger(__name__)
@@ -17,7 +17,7 @@ def start_scheduler():
             # Agendando a tarefa para rodar a cada 10 minutos
             scheduler.add_job(
                 atualizar_precos,
-                trigger=IntervalTrigger(minutes=10),
+                trigger=IntervalTrigger(minutes=1),
                 id="atualizar_precos",
                 replace_existing=True,
             )

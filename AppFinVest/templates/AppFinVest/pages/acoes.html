@@ -63,18 +63,18 @@
                 </tr>
             </thead>
             <tbody>
-                {% for stock in stock_data %}
+                {% for dado_acao in dados_acoes %}
                 <tr>
-                    <td>{{ stock.symbol }}</td>
-                    {% if stock.error %}
-                    <td colspan="6" class="error">{{ stock.error }}</td>
+                    <td>{{ dado_acao.symbol }}</td>
+                    {% if dado_acao.error %}
+                    <td colspan="6" class="error">{{ dado_acao.error }}</td>
                     {% else %}
-                    <td>{{ stock.date }}</td>
-                    <td>{{ stock.open_price }}</td>
-                    <td>{{ stock.high_price }}</td>
-                    <td>{{ stock.low_price }}</td>
-                    <td>{{ stock.close_price }}</td>
-                    <td>{{ stock.volume }}</td>
+                    <td>{{ dado_acao.date }}</td>
+                    <td>{{ dado_acao.open_price }}</td>
+                    <td>{{ dado_acao.high_price }}</td>
+                    <td>{{ dado_acao.low_price }}</td>
+                    <td>{{ dado_acao.close_price }}</td>
+                    <td>{{ dado_acao.volume }}</td>
                     {% endif %}
                 </tr>
                 {% endfor %}

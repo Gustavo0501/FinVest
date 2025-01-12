@@ -11,9 +11,9 @@ from django.contrib.auth.hashers import make_password
 from django.contrib.auth.hashers import check_password
 
 
-class BaseValidationForm(forms.Form):
+class FormularioBaseValidacao(forms.Form):
     # Validação do nome de usuário
-    def validate_nome_usuario(self, nome_usuario):
+    def validar_nome_usuario(self, nome_usuario):
         if not nome_usuario:
             raise ValidationError("O nome de usuário é obrigatório.")
         if len(nome_usuario) < 3:
@@ -21,7 +21,7 @@ class BaseValidationForm(forms.Form):
         return nome_usuario
 
     # Validação do e-mail
-    def validate_email(self, email):
+    def validar_email(self, email):
         if not email:
             raise ValidationError("O e-mail é obrigatório.")
         if '@' not in email:
@@ -29,7 +29,7 @@ class BaseValidationForm(forms.Form):
         return email
 
     # Validação do CPF
-    def validate_cpf(self, cpf):
+    def validar_cpf(self, cpf):
         if not cpf.isdigit():
             raise ValidationError("O CPF deve conter apenas números.")
         if len(cpf) != 11:
@@ -39,7 +39,7 @@ class BaseValidationForm(forms.Form):
         return cpf
 
     # Validação de telefone
-    def validate_telefone(self, telefone):
+    def validar_telefone(self, telefone):
         if not telefone.isdigit():
             raise ValidationError("O telefone deve conter apenas números.")
         if len(telefone) != 11:
@@ -58,7 +58,7 @@ class BaseValidationForm(forms.Form):
 
 
 # 🧩 Formulário de Registro de Usuário
-class RegistroUsuarioForm(BaseValidationForm, forms.ModelForm):
+class FormularioRegistroUsuario(FormularioBaseValidacao, forms.ModelForm):
     class Meta:
         model = Usuario
         fields = [
@@ -83,19 +83,19 @@ class RegistroUsuarioForm(BaseValidationForm, forms.ModelForm):
         }
 
     def clean_nome_usuario(self):
-        return self.validate_nome_usuario(self.cleaned_data.get('nome_usuario'))
+        return self.validar_nome_usuario(self.cleaned_data.get('nome_usuario'))
 
     def clean_email(self):
-        return self.validate_email(self.cleaned_data.get('email'))
+        return self.validar_email(self.cleaned_data.get('email'))
 
     def clean_cpf(self):
-        return self.validate_cpf(self.cleaned_data.get('cpf'))
+        return self.validar_cpf(self.cleaned_data.get('cpf'))
 
     def clean_telefone(self):
-        return self.validate_telefone(self.cleaned_data.get('telefone'))
+        return self.validar_telefone(self.cleaned_data.get('telefone'))
 
 # 🧩 Formulário de Informações Financeiras
-class InformacoesFinanceirasForm(forms.ModelForm):
+class FormularioInfoFinanceiras(forms.ModelForm):
     class Meta:
         model = PerfilFinanceiro
         fields = ['renda', 'divida', 'patrimonio']
@@ -137,14 +137,14 @@ class InformacoesFinanceirasForm(forms.ModelForm):
         locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
         
         now = timezone.now()
-        current_month = calendar.month_name[now.month].capitalize()
-        instance.mes_referente = current_month
+        mes_atual = calendar.month_name[now.month].capitalize()
+        instance.mes_referente = mes_atual
 
         if commit:
             instance.save()
         return instance
 
-class LoginForm(forms.Form):
+class FormularioLogin(forms.Form):
     email = forms.EmailField(
         widget=forms.EmailInput(attrs={"class": "form-control", "placeholder": "E-mail"}),
         error_messages={
@@ -179,7 +179,7 @@ class LoginForm(forms.Form):
                 raise ValidationError("Credenciais inválidas.")
         return cleaned_data
 
-class UserProfileForm(BaseValidationForm, forms.ModelForm): 
+class FormularioPerfilUsuario(FormularioBaseValidacao, forms.ModelForm): 
     class Meta: 
         model = Usuario
         fields = [
@@ -203,22 +203,22 @@ class UserProfileForm(BaseValidationForm, forms.ModelForm):
         }
 
     def clean_nome_usuario(self):
-        return self.validate_nome_usuario(self.cleaned_data.get('nome_usuario'))
+        return self.validar_nome_usuario(self.cleaned_data.get('nome_usuario'))
 
     def clean_email(self):
-        return self.validate_email(self.cleaned_data.get('email'))
+        return self.validar_email(self.cleaned_data.get('email'))
 
     def clean_cpf(self):
-        return self.validate_cpf(self.cleaned_data.get('cpf'))
+        return self.validar_cpf(self.cleaned_data.get('cpf'))
 
     def clean_telefone(self):
-        return self.validate_telefone(self.cleaned_data.get('telefone'))
+        return self.validar_telefone(self.cleaned_data.get('telefone'))
 
 
-class UserPasswordChangeForm(forms.Form):
-    old_password = forms.CharField(widget=forms.PasswordInput, label='Senha Atual')
-    new_password1 = forms.CharField(widget=forms.PasswordInput, label='Nova Senha')
-    new_password2 = forms.CharField(widget=forms.PasswordInput, label='Confirmar Nova Senha')
+class FormularioMudarSenha(forms.Form):
+    senha_antiga = forms.CharField(widget=forms.PasswordInput, label='Senha Atual')
+    nova_senha1 = forms.CharField(widget=forms.PasswordInput, label='Nova Senha')
+    nova_senha2 = forms.CharField(widget=forms.PasswordInput, label='Confirmar Nova Senha')
 
     def __init__(self, *args, **kwargs):
         self.Usuario = kwargs.pop('Usuario', None)
@@ -226,21 +226,21 @@ class UserPasswordChangeForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        old_password = cleaned_data.get('old_password')
-        new_password1 = cleaned_data.get('new_password1')
-        new_password2 = cleaned_data.get('new_password2')
+        senha_antiga = cleaned_data.get('senha_antiga')
+        nova_senha1 = cleaned_data.get('nova_senha1')
+        nova_senha2 = cleaned_data.get('nova_senha2')
 
-        if not self.Usuario.check_password(old_password):
-            self.add_error('old_password', 'Senha atual incorreta.')
+        if not self.Usuario.check_password(senha_antiga):
+            self.add_error('senha_antiga', 'Senha atual incorreta.')
         
-        if new_password1 and new_password1 != new_password2:
-            self.add_error('new_password2', 'As novas senhas não coincidem.')
+        if nova_senha1 and nova_senha1 != nova_senha2:
+            self.add_error('nova_senha2', 'As novas senhas não coincidem.')
 
         return cleaned_data
 
     def save(self, commit=True):
-        new_password = self.cleaned_data.get('new_password1')
-        self.Usuario.senha = make_password(new_password)
+        nova_senha = self.cleaned_data.get('nova_senha1')
+        self.Usuario.senha = make_password(nova_senha)
         if commit:
             self.Usuario.save()
         return self.Usuario

@@ -14,13 +14,13 @@ def atualizar_precos_acoes():
     for ativo in acoes:       
         try:
             api_url = f"https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol={ativo.nome_ativo}&apikey=D27EWPB0P5IPZXCJ"
-            response = requests.get(api_url)
-            response.raise_for_status()
+            resposta = requests.get(api_url)
+            resposta.raise_for_status()
 
-            data = response.json()
-            if "Time Series (Daily)" in data:
-                latest_date = next(iter(data["Time Series (Daily)"]))
-                time_series = data["Time Series (Daily)"][latest_date]
+            dados = resposta.json()
+            if "Time Series (Daily)" in dados:
+                latest_date = next(iter(dados["Time Series (Daily)"]))
+                time_series = dados["Time Series (Daily)"][latest_date]
 
                 ativo.atualizar_ativo_acao(
                     data=datetime.strptime(latest_date, "%Y-%m-%d"),
@@ -52,11 +52,11 @@ def atualizar_precos_criptomoedas():
     }
 
     try:
-        response = requests.get(url, params=params)
-        response.raise_for_status()
-        criptomoedas_data = response.json()
+        resposta = requests.get(url, params=params)
+        resposta.raise_for_status()
+        dados_criptomoedas = resposta.json()
 
-        for cripto in criptomoedas_data:
+        for cripto in dados_criptomoedas:
             ativo = criptomoedas.filter(nome_ativo=cripto['id']).first()
             if ativo:
                 ativo.atualizar_ativo_criptomoeda(

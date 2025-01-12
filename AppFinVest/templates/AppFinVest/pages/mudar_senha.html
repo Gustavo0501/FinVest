@@ -9,24 +9,24 @@
         <form method="post">
             {% csrf_token %}
             <div class="formulario">
-                {{ form.old_password.label_tag }}
-                {{ form.old_password }}
-                {% if form.old_password.errors %}
-                    <small class="error">{{ form.old_password.errors|striptags }}</small>
+                {{ form.senha_antiga.label_tag }}
+                {{ form.senha_antiga }}
+                {% if form.senha_antiga.errors %}
+                    <small class="error">{{ form.senha_antiga.errors|striptags }}</small>
                 {% endif %}
             </div>
             <div class="formulario">
-                {{ form.new_password1.label_tag }}
-                {{ form.new_password1 }}
-                {% if form.new_password1.errors %}
-                    <small class="error">{{ form.new_password1.errors|striptags }}</small>
+                {{ form.nova_senha1.label_tag }}
+                {{ form.nova_senha1 }}
+                {% if form.nova_senha1.errors %}
+                    <small class="error">{{ form.nova_senha1.errors|striptags }}</small>
                 {% endif %}
             </div>
             <div class="formulario">
-                {{ form.new_password2.label_tag }}
-                {{ form.new_password2 }}
-                {% if form.new_password2.errors %}
-                    <small class="error">{{ form.new_password2.errors|striptags }}</small>
+                {{ form.nova_senha2.label_tag }}
+                {{ form.nova_senha2 }}
+                {% if form.nova_senha2.errors %}
+                    <small class="error">{{ form.nova_senha2.errors|striptags }}</small>
                 {% endif %}
             </div>
             <button type="submit" class="botao-mudar-senha">Alterar Senha</button>
