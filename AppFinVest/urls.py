@@ -10,7 +10,7 @@ urlpatterns = [
     path('registro/informacoes-financeiras/info-perfil-investidor', views.infoPerfilInvestidor, name='infoPerfilInvestidor'),
     path('registro/informacoes-financeiras/info-perfil-endividado', views.infoPerfilEndividado, name='infoPerfilEndividado'),
     path('perfil/', views.perfil, name='perfil'),
-    path('perfil/mudar-senha', views.change_password, name='change_password'),
+    path('perfil/mudar-senha', views.mudar_senha, name='mudar_senha'),
     path('excluir-conta/', views.excluir_conta, name='excluir_conta'),
     path('visao-geral/', views.visao_geral, name='visao-geral'),
     path('acoes/', views.stock_table),

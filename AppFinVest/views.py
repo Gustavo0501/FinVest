@@ -145,7 +145,7 @@ def perfil(request):
 
 
 @login_required
-def change_password(request):
+def mudar_senha(request):
     usuario_id = request.session.get('usuario_id')
     usuario_logado = Usuario.objects.get(id=usuario_id)
 
@@ -156,7 +156,7 @@ def change_password(request):
             return redirect('perfil')
     else:
         form = UserPasswordChangeForm(Usuario=usuario_logado)
-    return render(request, 'AppFinVest/pages/change_password.html', {'form': form})
+    return render(request, 'AppFinVest/pages/mudar_senha.html', {'form': form})
 
 @login_required
 def excluir_conta(request):

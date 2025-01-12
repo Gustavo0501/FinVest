@@ -22,7 +22,7 @@
             <div class="perfil-nome_usuario">{{usuario_logado.primeiro_nome}} {{usuario_logado.ultimo_nome}}</div>
             <div class="perfil-tipo_usuario">{{usuario_logado.nome_usuario}}</div>
             <div class="botoes-perfil">
-                <a href="{% url 'change_password' %}" class="link-mudar-senha">Mudar Senha</a>
+                <a href="{% url 'mudar_senha' %}" class="link-mudar-senha">Mudar Senha</a>
                 <form method="POST" action="{% url 'logout' %}">
                     {% csrf_token %}
                     <button type="submit" class="logout">Logout</button>
