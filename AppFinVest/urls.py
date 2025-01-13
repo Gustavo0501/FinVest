@@ -1,19 +1,23 @@
 from django.urls import path
 
-from . import views
+from .views import (
+    LoginView, LogoutView, RegistroEtapa1View, RegistroEtapa2View, InfoPerfilInvestidorView,
+    InfoPerfilEndividadoView, PerfilView, MudarSenhaView, ExcluirContaView,
+    TabelaAcoesView, CriptomoedasView, GraficosView, VisaoGeralView
+)
 
 urlpatterns = [
-    path('login/', views.login, name='login'),
-    path('logout/', views.logout_view, name='logout'),
-    path('registro/', views.registro_etapa1, name='registro'),
-    path('registro/informacoes-financeiras', views.registro_etapa2, name='registroFinanceiro'),
-    path('registro/informacoes-financeiras/info-perfil-investidor', views.infoPerfilInvestidor, name='infoPerfilInvestidor'),
-    path('registro/informacoes-financeiras/info-perfil-endividado', views.infoPerfilEndividado, name='infoPerfilEndividado'),
-    path('perfil/', views.perfil, name='perfil'),
-    path('perfil/mudar-senha', views.mudar_senha, name='mudar_senha'),
-    path('excluir-conta/', views.excluir_conta, name='excluir_conta'),
-    path('visao-geral/', views.visao_geral, name='visao-geral'),
-    path('acoes/', views.tabela_acoes),
-    path('criptomoedas/', views.criptomoedas),
-    path('graficos/', views.graficos),
+    path('login/', LoginView.as_view(), name='login'),
+    path('logout/', LogoutView.as_view(), name='logout'),
+    path('registro/', RegistroEtapa1View.as_view(), name='registro'),
+    path('registro/informacoes-financeiras', RegistroEtapa2View.as_view(), name='registroFinanceiro'),
+    path('registro/informacoes-financeiras/info-perfil-investidor', InfoPerfilInvestidorView.as_view(), name='infoPerfilInvestidor'),
+    path('registro/informacoes-financeiras/info-perfil-endividado', InfoPerfilEndividadoView.as_view(), name='infoPerfilEndividado'),
+    path('perfil/', PerfilView.as_view(), name='perfil'),
+    path('perfil/mudar-senha', MudarSenhaView.as_view(), name='mudar_senha'),
+    path('excluir-conta/', ExcluirContaView.as_view(), name='excluir_conta'),
+    path('visao-geral/', VisaoGeralView.as_view(), name='visao-geral'),
+    path('acoes/', TabelaAcoesView.as_view(), name='tabela_acoes'),
+    path('criptomoedas/', CriptomoedasView.as_view(), name='criptomoedas'),
+    path('graficos/', GraficosView.as_view(), name='graficos'),
 ]
