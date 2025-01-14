@@ -29,9 +29,9 @@ class Usuario(models.Model):
 
 class PerfilFinanceiro(models.Model):
     tipo_perfil = models.CharField(max_length=45)
-    renda = models.DecimalField(max_digits=10, decimal_places=2, null=False)
-    divida = models.DecimalField(max_digits=10, decimal_places=2, null=False)
-    patrimonio = models.DecimalField(max_digits=10, decimal_places=2, null=False)
+    renda = models.DecimalField(max_digits=15, decimal_places=2, null=False)
+    divida = models.DecimalField(max_digits=15, decimal_places=2, null=False)
+    patrimonio = models.DecimalField(max_digits=15, decimal_places=2, null=False)
     mes_referente = models.CharField(max_length=7, null=False)
     usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="usuario")
 

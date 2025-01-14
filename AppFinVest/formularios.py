@@ -5,6 +5,7 @@ from django.utils.timezone import now
 import re
 from decimal import Decimal
 from django.utils import timezone
+from datetime import date
 import calendar
 import locale
 from django.contrib.auth.hashers import make_password
@@ -66,6 +67,19 @@ class FormularioBaseValidacao(forms.Form):
 
         return cpf
 
+    def validar_data_nascimento(self, data_nascimento):
+        if not data_nascimento:
+            raise ValidationError("A data de nascimento é obrigatória.")
+
+        hoje = date.today()
+        if data_nascimento > hoje:
+            raise ValidationError("A data de nascimento não pode ser no futuro.")
+
+        idade = hoje.year - data_nascimento.year - ((hoje.month, hoje.day) < (data_nascimento.month, data_nascimento.day))
+        if idade < 18:
+            raise ValidationError("Você precisa ter pelo menos 18 anos para se registrar.")
+
+        return data_nascimento
 
 # 🧩 Formulário de Registro de Usuário
 class FormularioRegistroUsuario(FormularioBaseValidacao, forms.ModelForm):
@@ -104,6 +118,9 @@ class FormularioRegistroUsuario(FormularioBaseValidacao, forms.ModelForm):
 
     def clean_telefone(self):
         return self.validar_telefone(self.cleaned_data.get('telefone'))
+
+    def clean_data_nascimento(self):
+        return self.validar_data_nascimento(self.cleaned_data.get('data_nascimento'))
 
 # 🧩 Formulário de Informações Financeiras
 class FormularioInfoFinanceiras(forms.ModelForm):
@@ -224,6 +241,9 @@ class FormularioPerfilUsuario(FormularioBaseValidacao, forms.ModelForm):
 
     def clean_telefone(self):
         return self.validar_telefone(self.cleaned_data.get('telefone'))
+
+    def clean_data_nascimento(self):
+        return self.validar_data_nascimento(self.cleaned_data.get('data_nascimento'))
 
 
 class FormularioMudarSenha(forms.Form):

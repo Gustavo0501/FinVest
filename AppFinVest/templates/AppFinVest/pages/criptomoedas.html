@@ -65,10 +65,10 @@
                     {% for moeda in criptomoedas %}
                     <tr>
                         <td>{{ forloop.counter }}</td>
-                        <td>{{ moeda.name }}</td>
-                        <td>${{ moeda.current_price|floatformat:2 }}</td>
-                        <td>${{ moeda.market_cap|intcomma }}</td>
-                        <td>${{ moeda.total_volume|intcomma }}</td>
+                        <td>{{ moeda.nome_ativo }}</td>
+                        <td>${{ moeda.preco_atual|floatformat:2 }}</td>
+                        <td>${{ moeda.capitalizacao_mercado|intcomma }}</td>
+                        <td>${{ moeda.volume_24h|intcomma }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

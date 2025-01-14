@@ -15,12 +15,12 @@ class TabelaAcoesView(View):
         tabela_global = TabelaGlobal.get_instance()
         dados_acoes = [
             {
-                "symbol": acao.nome_ativo,
-                "date": acao.data,
-                "open_price": acao.abertura,
-                "high_price": acao.maximo,
-                "low_price": acao.minimo,
-                "close_price": acao.fechamento,
+                "nome_ativo": acao.nome_ativo,
+                "data": acao.data,
+                "abertura": acao.abertura,
+                "maximo": acao.maximo,
+                "minimo": acao.minimo,
+                "fechamento": acao.fechamento,
                 "volume": acao.volume,
             }
             for acao in tabela_global.get_acoes()

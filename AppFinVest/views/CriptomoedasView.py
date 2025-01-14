@@ -13,10 +13,10 @@ class CriptomoedasView(View):
         tabela_global = TabelaGlobal.get_instance()
         dados_criptomoedas = [
             {
-                "name": cripto.nome_ativo,
-                "current_price": cripto.preco_atual,
-                "market_cap": cripto.capitalizacao_mercado,
-                "total_volume": cripto.volume_24h,
+                "nome_ativo": cripto.nome_ativo,
+                "preco_atual": cripto.preco_atual,
+                "capitalizacao_mercado": cripto.capitalizacao_mercado,
+                "volume_24h": cripto.volume_24h,
             }
             for cripto in tabela_global.get_criptomoedas()
         ]

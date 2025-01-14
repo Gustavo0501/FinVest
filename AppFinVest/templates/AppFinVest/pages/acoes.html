@@ -65,15 +65,15 @@
             <tbody>
                 {% for dado_acao in dados_acoes %}
                 <tr>
-                    <td>{{ dado_acao.symbol }}</td>
+                    <td>{{ dado_acao.nome_ativo }}</td>
                     {% if dado_acao.error %}
                     <td colspan="6" class="error">{{ dado_acao.error }}</td>
                     {% else %}
                     <td>{{ dado_acao.date }}</td>
-                    <td>{{ dado_acao.open_price }}</td>
-                    <td>{{ dado_acao.high_price }}</td>
-                    <td>{{ dado_acao.low_price }}</td>
-                    <td>{{ dado_acao.close_price }}</td>
+                    <td>{{ dado_acao.abertura }}</td>
+                    <td>{{ dado_acao.maximo }}</td>
+                    <td>{{ dado_acao.minimo }}</td>
+                    <td>{{ dado_acao.fechamento }}</td>
                     <td>{{ dado_acao.volume }}</td>
                     {% endif %}
                 </tr>
