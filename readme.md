@@ -2,7 +2,7 @@ Tudo que foi baixado no ambiente virtual:
 
 pip install django
 
-pip install request
+pip install requests
 
 pip install django-apscheduler
 
