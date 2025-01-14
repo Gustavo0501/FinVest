@@ -24,4 +24,7 @@ class CriptomoedasView(View):
         criptomoedas_atualizadas = cache.get("criptomoeda_atualizadas", [])
         mensagem_atualizacao = f"As seguintes criptomoedas foram atualizadas: {', '.join(criptomoedas_atualizadas)}" if criptomoedas_atualizadas else None
 
+        # Limpa a cache após exibir a mensagem
+        cache.delete("criptomoeda_atualizadas")
+
         return render(request, self.template_name, {'criptomoedas': dados_criptomoedas, 'mensagem_atualizacao': mensagem_atualizacao})

@@ -29,4 +29,7 @@ class TabelaAcoesView(View):
         acoes_atualizadas = cache.get("ação_atualizadas", [])
         mensagem_atualizacao = f"As seguintes ações foram atualizadas: {', '.join(acoes_atualizadas)}" if acoes_atualizadas else None
 
+        # Limpa a cache após exibir a mensagem
+        cache.delete("ação_atualizadas")
+
         return render(request, self.template_name, {'dados_acoes': dados_acoes, 'mensagem_atualizacao': mensagem_atualizacao})

@@ -8,7 +8,6 @@ from AppFinVest.models import Usuario
 from AppFinVest.formularios import FormularioPerfilUsuario
 
 
-
 class PerfilView(View):
     template_name = 'AppFinVest/pages/perfil.html'
 

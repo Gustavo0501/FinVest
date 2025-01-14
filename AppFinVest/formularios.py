@@ -48,13 +48,23 @@ class FormularioBaseValidacao(forms.Form):
 
     # Função auxiliar para validar CPF
     def validar_cpf(self, cpf):
+        if not cpf.isdigit():
+            raise ValidationError("O CPF deve conter apenas números.")
+        if len(cpf) != 11:
+            raise ValidationError("O CPF deve ter exatamente 11 dígitos.")
+
         def calcular_digito(cpf, peso):
             soma = sum(int(digito) * (peso - i) for i, digito in enumerate(cpf[:peso - 1]))
             resto = soma % 11
             return '0' if resto < 2 else str(11 - resto)
+
         primeiro_digito = calcular_digito(cpf, 10)
         segundo_digito = calcular_digito(cpf, 11)
-        return cpf[-2:] == primeiro_digito + segundo_digito
+
+        if cpf[-2:] != primeiro_digito + segundo_digito:
+            raise ValidationError("O CPF informado é inválido.")
+
+        return cpf
 
 
 # 🧩 Formulário de Registro de Usuário
@@ -89,7 +99,8 @@ class FormularioRegistroUsuario(FormularioBaseValidacao, forms.ModelForm):
         return self.validar_email(self.cleaned_data.get('email'))
 
     def clean_cpf(self):
-        return self.validar_cpf(self.cleaned_data.get('cpf'))
+        cpf = self.cleaned_data.get('cpf')
+        return self.validar_cpf(cpf)
 
     def clean_telefone(self):
         return self.validar_telefone(self.cleaned_data.get('telefone'))

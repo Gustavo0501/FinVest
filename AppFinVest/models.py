@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.hashers import check_password
+from django.contrib.auth.hashers import check_password, make_password
 from django.utils.translation import gettext_lazy as _
 from django.contrib.messages import add_message
 from django.contrib.messages.constants import INFO
@@ -18,6 +18,10 @@ class Usuario(models.Model):
 
     def __str__(self):
         return self.nome_usuario
+
+    def set_password(self, raw_password):
+        self.senha = make_password(raw_password)
+        self.save()
 
     def check_password(self, raw_password):
         return check_password(raw_password, self.senha)
