@@ -465,10 +465,6 @@ button.btn:hover {
     background-color: #003366;
 }
 
-.btn:hover {
-    background-color: #003366;
-}
-
 .image {
     flex: 1;
     display: flex;
