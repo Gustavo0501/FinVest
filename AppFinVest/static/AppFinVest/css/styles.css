@@ -415,7 +415,7 @@ button.btn:hover {
 }
 
 /*Estilização da página de perfil*/
-.container {
+.container-pag-perfil {
     display: flex;
     justify-content: flex-start; /* Alinha o conteúdo à esquerda */
     align-items: center; /* Centraliza verticalmente */
@@ -423,7 +423,7 @@ button.btn:hover {
     padding: 0 50px; /* Adiciona espaço lateral */
 }
 
-.content {
+.content-pag-perfil {
     max-width: 800px; /* Aumenta a largura do quadrado */
     text-align: justify; /* Justifica o texto para melhorar a legibilidade */
     padding: 30px; /* Adiciona mais espaço interno */
@@ -432,18 +432,18 @@ button.btn:hover {
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para destacar */
 }
 
-h2 {
+.h2-pag-perfil {
     font-size: 28px;
     margin-bottom: 20px;
 }
 
-ul {
+.ul-pag-perfil {
     list-style-type: none;
     padding-left: 20px;
     margin-bottom: 20px;
 }
 
-li {
+.li-pag-perfil {
     margin-bottom: 10px;
 }
 
