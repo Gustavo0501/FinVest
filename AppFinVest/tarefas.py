@@ -6,6 +6,9 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
+# Constante para evitar duplicação de string
+TIME_SERIES_DAILY = "Time Series (Daily)"
+
 # 🔧 Atualização de Ações usando Alpha Vantage
 def atualizar_precos_acoes():
     tabela_global = TabelaGlobal.get_instance()
@@ -18,9 +21,9 @@ def atualizar_precos_acoes():
             resposta.raise_for_status()
 
             dados = resposta.json()
-            if "Time Series (Daily)" in dados:
-                latest_date = next(iter(dados["Time Series (Daily)"]))
-                time_series = dados["Time Series (Daily)"][latest_date]
+            if TIME_SERIES_DAILY in dados:
+                latest_date = next(iter(dados[TIME_SERIES_DAILY]))
+                time_series = dados[TIME_SERIES_DAILY][latest_date]
 
                 ativo.atualizar_ativo_acao(
                     data=datetime.strptime(latest_date, "%Y-%m-%d"),

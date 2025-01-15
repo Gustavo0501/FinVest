@@ -17,7 +17,7 @@ def login_required(view_func):
         usuario_id = request.session.get('usuario_id')
         try:
             # Tenta buscar o usuário no banco de dados
-            usuario_logado = Usuario.objects.get(id=usuario_id)
+            Usuario.objects.get(id=usuario_id)
         except Usuario.DoesNotExist:
             # Se o usuário não for encontrado, redireciona para a página de login
             return redirect('login')

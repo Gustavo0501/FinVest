@@ -28,7 +28,7 @@ header {
     left: 50%;
     transform: translateX(-50%);
     color: white;
-    font-family: "Poetsen One";
+    font-family: "Poetsen One", serif;
     font-size: 48px;
     text-align: center;
 }
@@ -134,12 +134,7 @@ header {
     font-size: 20px;
     font-weight: bold;
     transition: background-color 0.3s ease, color 0.3s ease;
-    border-bottom: 1px solid #1B50AC;
-}
-
-.menu-item {
     border-bottom: 2px solid #1B50AC;
-    margin-bottom: 15px;
 }
 
 .ultimo-item {
@@ -398,7 +393,6 @@ button.btn:hover {
     background-color: #1b50ac;
     color: white;
     cursor: pointer;
-    margin-top: 10px;
     text-decoration: none;
     border-radius: 5px;
     margin-top: 470px;

@@ -1,7 +1,7 @@
 // Função genérica para criar gráficos
 function criarGrafico(id, config) {
     const ctx = document.getElementById(id).getContext('2d');
-    new Chart(ctx, config);
+    return new Chart(ctx, config);
 }
 
 // Gráfico: Patrimônio ao longo do tempo
