@@ -420,6 +420,73 @@ button.btn:hover {
     background-color: #164a93; 
 }
 
+/*Estilização da página de perfil*/
+.container {
+    display: flex;
+    justify-content: flex-start; /* Alinha o conteúdo à esquerda */
+    align-items: center; /* Centraliza verticalmente */
+    height: 100vh; /* Faz o contêiner ocupar a altura total da tela */
+    padding: 0 50px; /* Adiciona espaço lateral */
+}
+
+.content {
+    max-width: 800px; /* Aumenta a largura do quadrado */
+    text-align: justify; /* Justifica o texto para melhorar a legibilidade */
+    padding: 30px; /* Adiciona mais espaço interno */
+    background-color: #fff; /* Fundo branco para destaque */
+    border-radius: 8px; /* Bordas arredondadas */
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra para destacar */
+}
+
+h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    padding-left: 20px;
+    margin-bottom: 20px;
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.btn {
+    display: inline-block; /* Garante que o botão se comporte como um bloco */
+    margin-top: 20px; /* Adiciona espaço acima do botão */
+    padding: 15px 30px; /* Define o tamanho interno do botão */
+    background-color: #004d99;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+    border-radius: 5px; /* Bordas arredondadas para harmonizar com o estilo */
+}
+
+.btn:hover {
+    background-color: #003366;
+}
+
+.btn:hover {
+    background-color: #003366;
+}
+
+.image {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.image img {
+    width: 80%;
+    max-width: 400px;
+    height: auto;
+}
+
 
 /* Estilos do formulário de mudança de senha */
 
