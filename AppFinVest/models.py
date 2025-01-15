@@ -63,7 +63,7 @@ class PrecoAtivo(models.Model):
         if not self.observers.exists():
             Observer.objects.create(ativo=self)  # Cria um observer padrão
 
-    # 🔧 Método para atualizar dados de ações
+    # Método para atualizar dados de ações
     def atualizar_ativo_acao(self, data=None, abertura=None, maximo=None, minimo=None, fechamento=None, volume=None, request=None):
         self.data = data
         self.abertura = abertura
@@ -75,7 +75,7 @@ class PrecoAtivo(models.Model):
         print(f"Ação {self.nome_ativo} atualizada com sucesso.")
         self.notificar_observers(request)
 
-    # 🔧 Método para atualizar dados de criptomoedas
+    # Método para atualizar dados de criptomoedas
     def atualizar_ativo_criptomoeda(self, preco_atual=None, capitalizacao_mercado=None, volume_24h=None, request=None):
         self.preco_atual = preco_atual
         self.capitalizacao_mercado = capitalizacao_mercado
@@ -84,15 +84,15 @@ class PrecoAtivo(models.Model):
         print(f"Criptomoeda {self.nome_ativo} atualizada com sucesso.")
         self.notificar_observers(request)
 
-    # 🔔 Método para adicionar um observer
+    # Método para adicionar um observer
     def adicionar_observer(self, observer):
         Observer.objects.create(ativo=self, **observer)
 
-    # 🔔 Método para remover um observer
+    # Método para remover um observer
     def remover_observer(self, observer):
         Observer.objects.filter(ativo=self, **observer).delete()
 
-    # 🔔 Método para notificar os observers
+    # Método para notificar os observers
     def notificar_observers(self, request=None):
         for observer in self.observers.all():
             observer.atualizar(self, request)

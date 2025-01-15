@@ -81,7 +81,7 @@ class FormularioBaseValidacao(forms.Form):
 
         return data_nascimento
 
-# 🧩 Formulário de Registro de Usuário
+# Formulário de Registro de Usuário
 class FormularioRegistroUsuario(FormularioBaseValidacao, forms.ModelForm):
     class Meta:
         model = Usuario
@@ -155,13 +155,13 @@ class FormularioInfoFinanceiras(forms.ModelForm):
             return "Endividado" 
         return "Investidor"
 
-    # 🔧 Sobrescrevendo o método save()
+    # Sobrescrevendo o método save()
     def save(self, usuario, commit=True):
         instance = super().save(commit=False)
         instance.usuario = usuario
         instance.tipo_perfil = self.calcular_tipo_perfil()
 
-        # 🔧 Define o mês referente com base no timezone
+        # Define o mês referente com base no timezone
         locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
         
         now = timezone.now()
