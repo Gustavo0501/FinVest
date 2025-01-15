@@ -11,3 +11,4 @@ from .LogoutView import LogoutView
 from .InfoPerfilEndividadoView import InfoPerfilEndividadoView
 from .InfoPerfilInvestidorView import InfoPerfilInvestidorView
 from .VisaoGeralView import VisaoGeralView
+from .MetasView import MetasView

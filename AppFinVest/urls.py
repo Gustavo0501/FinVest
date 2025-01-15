@@ -3,7 +3,7 @@ from django.urls import path
 from .views import (
     LoginView, LogoutView, RegistroEtapa1View, RegistroEtapa2View, InfoPerfilInvestidorView,
     InfoPerfilEndividadoView, PerfilView, MudarSenhaView, ExcluirContaView,
-    TabelaAcoesView, CriptomoedasView, GraficosView, VisaoGeralView
+    TabelaAcoesView, CriptomoedasView, GraficosView, VisaoGeralView, MetasView
 )
 
 urlpatterns = [
@@ -16,8 +16,9 @@ urlpatterns = [
     path('perfil/', PerfilView.as_view(), name='perfil'),
     path('perfil/mudar-senha', MudarSenhaView.as_view(), name='mudar_senha'),
     path('excluir-conta/', ExcluirContaView.as_view(), name='excluir_conta'),
-    path('visao-geral/', VisaoGeralView.as_view(), name='visao-geral'),
+    path('', VisaoGeralView.as_view(), name='visao-geral'),
     path('acoes/', TabelaAcoesView.as_view(), name='tabela_acoes'),
     path('criptomoedas/', CriptomoedasView.as_view(), name='criptomoedas'),
     path('graficos/', GraficosView.as_view(), name='graficos'),
+    path('metas/', MetasView.as_view(), name='metas'),
 ]

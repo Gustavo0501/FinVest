@@ -1,9 +1,8 @@
 {% extends 'global/base.html' %}
 
-{% block title %}Gráficos Financeiros{% endblock %}
+{% block title %}Metas | {% endblock title %}
 
 {% block content %}
-
 <div class=corpo-pagina>
     <div class="menu-lateral">
         <ul class="menu">
@@ -40,23 +39,12 @@
         </ul>
     </div>
     <div class="conteudo-principal">
-        <h1>Seu Resumo Financeiro</h1>
+        
 
-        <div class="graficos-container">
-            <!-- Gráfico 1: Patrimônio ao longo do tempo -->
-            <canvas id="grafico-patrimonio" 
-            data-meses="{{ meses }}" 
-            data-patrimonio="{{ patrimonio }}">
-            </canvas>
 
-            <!-- Gráfico 2: Comparativo entre renda e dívidas -->
-            <canvas id="grafico-renda-dividas" 
-            data-meses="{{ meses }}" 
-            data-renda="{{ renda }}" 
-            data-dividas="{{ dividas }}">
-            </canvas>
-        </div>
+
     </div>
-
-
+    <div class="botao-adicionar">+</div>
+</div>
 {% endblock content %}
+

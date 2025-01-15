@@ -38,8 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'AppFinVest',
-    'django.contrib.humanize',
-    'django_apscheduler', 
+    'django.contrib.humanize', #add
+    'django_apscheduler', #add
 ]
 
 MIDDLEWARE = [
@@ -67,7 +67,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'AppFinVest.context_processors.usuario_logado',
+                'AppFinVest.context_processors.usuario_logado', #add
             ],
         },
     },
@@ -121,8 +121,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'static'
+STATIC_URL = '/static/' #add
+STATIC_ROOT = BASE_DIR / 'static' #add
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
