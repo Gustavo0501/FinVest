@@ -39,12 +39,44 @@
         </ul>
     </div>
     <div class="conteudo-principal">
-        
+        <h1>Minhas Metas</h1>
+
+        {% if metas %}
+            <ul>
+                {% for meta in metas %}
+                    <li>
+                        <strong>{{ meta.nome_meta }}</strong> - 
+                            Valor: R$ {{ meta.valor_meta }} -
+                            Data: {{ meta.data_meta }} -
+                            Atingida: {{ meta.atingida|yesno:"Sim,Não" }}
+                    </li>
+                {% endfor %}
+    </ul>
+    {% else %}
+        <p>Você ainda não tem metas cadastradas.</p>
+{% endif %}
 
 
 
     </div>
     <div class="botao-adicionar">+</div>
+
+    <div id="form-adicionar-meta" style="display: none;">
+        <form method="POST" action="{% url 'metas' %}">
+            {% csrf_token %}
+            <label for="nome_meta">Nome da Meta:</label>
+            <input type="text" id="nome_meta" name="nome_meta" required>
+    
+            <label for="valor_meta">Valor da Meta:</label>
+            <input type="number" id="valor_meta" name="valor_meta" step="0.01" required>
+    
+            <label for="data_meta">Data:</label>
+            <input type="date" id="data_meta" name="data_meta" required>
+    
+            <button type="submit">Salvar</button>
+            <button type="button" class="botao-cancelar">Cancelar</button>
+        </form>
+    </div>
 </div>
 {% endblock content %}
 
