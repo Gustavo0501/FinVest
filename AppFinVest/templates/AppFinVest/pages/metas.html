@@ -40,28 +40,28 @@
     </div>
     <div class="conteudo-principal">
         <h1>Minhas Metas</h1>
-
+    
         {% if metas %}
-            <ul>
+            <ul class="lista-metas">
                 {% for meta in metas %}
-                    <li>
-                        <strong>{{ meta.nome_meta }}</strong> - 
-                            Valor: R$ {{ meta.valor_meta }} -
-                            Data: {{ meta.data_meta }} -
-                            Atingida: {{ meta.atingida|yesno:"Sim,Não" }}
+                    <li class="meta-item">
+                        <strong>{{ meta.nome_meta }}</strong>
+                        <div class="meta-info">
+                            <span>Valor: R$ {{ meta.valor_meta }}</span>
+                            <span>Data: {{ meta.data_meta }}</span>
+                            <span>Atingida: {{ meta.atingida|yesno:"Sim,Não" }}</span>
+                        </div>
                     </li>
                 {% endfor %}
-    </ul>
-    {% else %}
-        <p>Você ainda não tem metas cadastradas.</p>
-{% endif %}
+            </ul>
+        {% else %}
+            <p>Você ainda não tem metas cadastradas.</p>
+        {% endif %}
+    </div>`
 
-
-
-    </div>
     <div class="botao-adicionar">+</div>
 
-    <div id="form-adicionar-meta" style="display: none;">
+    <div id="form-adicionar-meta" class="form-meta" style="display: none;">
         <form method="POST" action="{% url 'metas' %}">
             {% csrf_token %}
             <label for="nome_meta">Nome da Meta:</label>
@@ -73,8 +73,8 @@
             <label for="data_meta">Data:</label>
             <input type="date" id="data_meta" name="data_meta" required>
     
-            <button type="submit">Salvar</button>
-            <button type="button" class="botao-cancelar">Cancelar</button>
+            <button class="btn" type="submit">Salvar</button>
+            <button class="btn botao-cancelar" type="button">Cancelar</button>
         </form>
     </div>
 </div>
