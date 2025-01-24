@@ -138,3 +138,17 @@ class TabelaGlobal(models.Model):
     def get_criptomoedas(self):
         return self.ativos.filter(tipo="Criptomoeda")
 
+
+class MetaUsuario(models.Model):
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name="metas")
+    nome_meta = models.CharField(max_length=100)
+    valor_meta = models.DecimalField(max_digits=15, decimal_places=2)
+    data_meta = models.DateField()
+    atingida = models.BooleanField(default=False)
+    valor_atual = models.DecimalField(max_digits=15, decimal_places=2, default=0.0)
+    automatica = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Meta: {self.nome_meta} - Valor: R$ {self.valor_meta}"
+
+
