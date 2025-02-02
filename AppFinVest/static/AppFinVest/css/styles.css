@@ -525,3 +525,56 @@ button.btn:hover {
     background-color: #d9edf7;
     border-color: #bce8f1;
 }
+
+/* Estilização da seção de metas */
+.conteudo-principal h1 {
+    font-size: 28px;
+    color: #1e5ab7;
+    margin-bottom: 20px;
+}
+
+/* Estilização da lista de metas */
+.lista-metas {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+/* Estilização de cada item da lista de metas */
+.meta-item {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Efeito de hover para destacar a meta */
+.meta-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Estilo do nome da meta */
+.meta-item strong {
+    font-size: 20px;
+    color: #1e5ab7;
+    display: block;
+    margin-bottom: 5px;
+}
+
+/* Estilo das informações da meta */
+.meta-info {
+    font-size: 16px;
+    color: #333;
+}
+
+/* Adiciona espaçamento entre os elementos */
+.meta-info span {
+    display: block;
+    margin-bottom: 5px;
+}
+
+
