@@ -3,7 +3,7 @@
 {% block title %}Visão Geral | {% endblock title %}
 
 {% block content %}
-<div class=corpo-pagina>
+<div class="corpo-pagina">
     <div class="menu-lateral">
         <ul class="menu">
             <li>
@@ -39,50 +39,29 @@
         </ul>
     </div>
     <div class="conteudo-principal">
+        <!-- Exibição dos valores de patrimônio, renda e dívida -->
         <div class="caixas-container">
-            <div class="caixa"></div>
-            <div class="caixa"></div>
-            <div class="caixa"></div>
-        </div>
-        <div class="grafico"></div>
-        <div class="info-section">
-            <p>Bem-vindo {{usuario}} ao seu painel financeiro! Aqui você pode acompanhar suas informações de renda, dívidas e patrimônio, além de visualizar sua evolução ao longo do tempo.</p>
-            <div class="info-boxes">
-                <div class="info-box">
-                    <h2>Renda Mensal</h2>
-                    <p>R$ {{ renda_atual }}</p>
-                </div>
-                <div class="info-box">
-                    <h2>Total de Dívidas</h2>
-                    <p>R$ {{ divida_atual }}</p>
-                </div>
-                <div class="info-box">
-                    <h2>Patrimônio Atual</h2>
-                    <p>R$ {{ patrimonio_atual }}</p>
-                </div>
+            <div class="caixa">
+                <h3>Patrimônio</h3>
+                <p>R$ {{ patrimonio_atual }}</p>
+            </div>
+            <div class="caixa">
+                <h3>Renda</h3>
+                <p>R$ {{ renda_atual }}</p>
+            </div>
+            <div class="caixa">
+                <h3>Dívida</h3>
+                <p>R$ {{ divida_atual }}</p>
             </div>
         </div>
-
-        <div class="form-container">
-            <h2>Atualizar Dados Financeiros</h2>
-            <form method="POST" action="">
-                {% csrf_token %}
-                <div class="formulario">
-                    <label for="renda">Renda Mensal:</label>
-                    <input type="number" step="0.01" name="renda" id="renda" value="{{ renda_atual }}" required>
-                </div>
-                <div class="formulario">
-                    <label for="divida">Total de Dívidas:</label>
-                    <input type="number" step="0.01" name="divida" id="divida" value="{{ divida_atual }}" required>
-                </div>
-                <div class="formulario">
-                    <label for="patrimonio">Patrimônio Atual:</label>
-                    <input type="number" step="0.01" name="patrimonio" id="patrimonio" value="{{ patrimonio_atual }}" required>
-                </div>
-                <button type="submit">Atualizar</button>
-            </form>
+    <div class="graficos-container">
+            <!-- Gráfico 1: Patrimônio ao longo do tempo -->
+            <canvas id="grafico-patrimonio" 
+            data-meses="{{ meses }}" 
+            data-patrimonio="{{ patrimonio }}">
+            </canvas>
         </div>
-    </div>
-</div>
-{% endblock content %}
 
+
+</script>
+{% endblock content %}

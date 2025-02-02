@@ -56,9 +56,9 @@ class GraficosView(View):
         ]
 
         # Inicializando dicionários para armazenar os dados agrupados por mês
-        dados_patrimonio = {mes: [] for mes in meses}
-        dados_renda = {mes: [] for mes in meses}
-        dados_divida = {mes: [] for mes in meses}
+        dados_patrimonio = {mes: 0 for mes in meses}
+        dados_renda = {mes: 0 for mes in meses}
+        dados_divida = {mes: 0 for mes in meses}
 
         # Preenchendo os dicionários com os valores financeiros
         for info in infos_financeiras:
@@ -83,46 +83,3 @@ class GraficosView(View):
         }
 
         return render(request, self.template_name, context)
-
-    @method_decorator(login_required)
-    def post(self, request):
-        """
-        Processa a requisição POST para atualizar os dados financeiros do usuário.
-        """
-        # Pegando o usuário logado
-        usuario_id = request.session.get('usuario_id')
-        usuario_logado = get_object_or_404(Usuario, id=usuario_id)
-
-        locale.setlocale(locale.LC_TIME, 'pt_BR.UTF-8')
-
-        # Obtém o mês e o ano atuais
-        now = timezone.now()
-        mes_atual = calendar.month_name[now.month].capitalize()
-
-        # Filtra os registros financeiros do usuário logado para o mês atual
-        registro_usuario = PerfilFinanceiro.objects.filter(
-            usuario=usuario_logado,
-            mes_referente=mes_atual,
-        ).first()
-
-        # Atualiza ou cria o registro
-        renda = request.POST.get('renda')
-        divida = request.POST.get('divida')
-        patrimonio = request.POST.get('patrimonio')
-
-        if registro_usuario:
-            registro_usuario.renda = renda
-            registro_usuario.divida = divida
-            registro_usuario.patrimonio = patrimonio
-            registro_usuario.save()
-        else:
-            PerfilFinanceiro.objects.create(
-                usuario=usuario_logado,
-                tipo_perfil=usuario_logado.tipo_perfil,
-                mes_referente=mes_atual,
-                renda=renda,
-                divida=divida,
-                patrimonio=patrimonio,
-            )
-
-        return self.get(request)
