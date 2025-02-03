@@ -26,7 +26,7 @@ class LoginViewTest(TestCase):
         self.assertRedirects(response, reverse('visao-geral'))
 
     def test_login_com_senha_incorreta(self):
-        response = self.client.post(self.login_url, {'email': 'gustavo@example.com', 'senha': 'wrongpass'})
+        response = self.client.post(self.login_url, {'email': 'gustavo@example.com', 'senha': 'senhaerrada'})
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, "A senha está incorreta.")
 

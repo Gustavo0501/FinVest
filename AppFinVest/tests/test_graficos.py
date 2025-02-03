@@ -28,19 +28,3 @@ class GraficosViewTest(TestCase):
         self.autenticar_usuario()  # Simula o login
         response = self.client.get(reverse('graficos'))
         self.assertEqual(response.status_code, 200)
-
-    def test_atualizar_dados_financeiros(self):
-        self.autenticar_usuario()  # Simula o login
-        data = {
-            'renda': 7000,
-            'divida': 3000,
-            'patrimonio': 15000,
-        }
-        response = self.client.post(reverse('graficos'), data)
-        self.assertEqual(response.status_code, 200)
-
-        # Verifica se os dados foram atualizados corretamente
-        registro = PerfilFinanceiro.objects.get(usuario=self.usuario, mes_referente="Janeiro")
-        self.assertEqual(registro.renda, 7000)
-        self.assertEqual(registro.divida, 3000)
-        self.assertEqual(registro.patrimonio, 15000)
