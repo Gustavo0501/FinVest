@@ -116,7 +116,6 @@ GitHub.sublime-settings
 .history
 
 # Personal additions
-__pycache__/
 *.pyc
 __localcode
 venv
@@ -125,5 +124,3 @@ env
 local_settings.py
 _local_settings.py
 gunicorn-error-log
-db.sqlite3
-db copy.sqlite3
