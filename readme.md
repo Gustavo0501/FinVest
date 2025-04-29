@@ -11,6 +11,3 @@ python manage.py runserver
 python manage.py startapp NOMEAPP
 
 
-O que precisa ser corrigido:
-
-- Corrigir formulário gráficos
